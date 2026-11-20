@@ -48,3 +48,6 @@ npm run build -- ./release portable
 已有兼容翻译资源时，可将它们放进数据目录下的 `Translation/Models`、`Translation/Dictionaries` 和 `Translation/Runtime`，或把 `REVERSEWEAR_TRANSLATION_ASSETS` 设置为该资源根。用 `STILLTIME_PYTHON` 提供解释器路径。模型的具体格式见 `Source/desktop_translation_worker.py`。
 
 项目源码许可待确认。第三方组件的许可与来源见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
+
+工作台使用图片：
+<img width="2638" height="1780" alt="0d13b8ac-54b1-4757-8936-7262a35ea510" src="https://github.com/user-attachments/assets/d9ed4df5-c1dd-46ed-ae55-734fe6836ca1" />

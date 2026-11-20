@@ -1,0 +1,63 @@
+.wb #wb-home .wb-home-translation {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-rows: auto auto minmax(62px, 1fr) auto;
+  gap: 5px;
+  min-height: var(--wb-home-translation-min, 180px);
+  padding: 9px 11px;
+}
+.wb-home-translation h2 { margin: 0; font-size: 15px; }
+.wb-home-translation__tools {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr) auto;
+  gap: 6px;
+}
+.wb-home-translation__tools label,
+.wb-home-translation__field > div {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: 4px;
+  color: var(--wb-muted);
+  font-size: 11px;
+  white-space: nowrap;
+}
+.wb-home-translation__field > div label { margin-inline-end: auto; }
+.wb-home-translation__tools select,
+.wb #wb-home .wb-home-translation .wb-button {
+  min-width: 0;
+  min-height: 24px;
+  padding: 2px 5px;
+  font-size: 11px;
+  line-height: 1.2;
+}
+.wb-home-translation__tools select { width: 100%; border: 1px solid var(--wb-line); }
+.wb-home-translation__fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; min-height: 0; }
+.wb-home-translation__field { display: grid; grid-template-rows: auto minmax(0, 1fr); gap: 4px; min-width: 0; }
+.wb-home-translation textarea {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  padding: 5px 7px;
+  border: 1px solid var(--wb-line);
+  resize: none;
+  overflow: auto;
+  overscroll-behavior: contain;
+  font: inherit;
+  font-size: 12px;
+  line-height: 1.4;
+}
+.wb-home-translation__feedback {
+  min-height: 18px;
+  max-height: 32px;
+  overflow: auto;
+  overscroll-behavior: contain;
+  overflow-wrap: anywhere;
+  color: var(--wb-muted);
+  font-size: 11px;
+  line-height: 1.35;
+  scrollbar-width: thin;
+}
+.wb-home-translation__feedback p { margin: 0; }
+.wb-home-translation__feedback .is-error { color: var(--wb-text); font-weight: 600; }

@@ -1,0 +1,90 @@
+import assert from 'node:assert/strict';
+import { mkdtemp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
+import os from 'node:os';
+import path from 'node:path';
+import test from 'node:test';
+import { createDesktopRecords } from '../desktop_records.mjs';
+
+test('migration preserves locations and Markdown bodies, assigns stable IDs and stops on conflicts', async t => {
+  const root = await mkdtemp(path.join(os.tmpdir(), 'reversewear-records-'));
+  t.after(() => rm(root, { recursive: true, force: true }));
+  const docs = path.join(root, 'Documents');
+  const file = path.join(docs, 'Notes', 'draft.md');
+  await mkdir(path.dirname(file), { recursive: true });
+  const body = '# Draft\r\n\r\n原始正文 <script>must stay text</script>\r\n';
+  await writeFile(file, body, 'utf8');
+  const records = createDesktopRecords(docs);
+  await assert.rejects(records.migrate(), /迁移前必须先创建并校验 Markdown 快照/);
+  let backupCalled = 0;
+  const first = await records.migrate({ beforeMigrationSnapshot: async () => { backupCalled++; } });
+  assert.deepEqual(first, { changed: 1, issues: [] });
+  assert.equal(backupCalled, 1);
+  const migrated = await readFile(file, 'utf8');
+  assert.match(migrated, /schema: 1/);
+  assert.match(migrated, /id: "[a-f0-9]{16}"/);
+  assert.ok(migrated.endsWith(body));
+  const listed = await records.list();
+  assert.equal(listed[0].relativePath, path.join('Notes', 'draft.md'));
+  assert.equal(listed[0].body, body);
+  assert.equal((await records.migrate()).changed, 0);
+  assert.equal(backupCalled, 1);
+});
+
+test('migration preserves legacy IDs and reports duplicate and future schema files without writing', async t => {
+  const root = await mkdtemp(path.join(os.tmpdir(), 'reversewear-records-'));
+  t.after(() => rm(root, { recursive: true, force: true }));
+  const docs = path.join(root, 'Documents');
+  await mkdir(path.join(docs, 'Links'), { recursive: true });
+  await writeFile(path.join(docs, 'Links', 'one.md'), '---\nid: "0123456789abcdef"\ntype: "link"\n---\n\nhttps://example.com\n', 'utf8');
+  await writeFile(path.join(docs, 'Links', 'duplicate.md'), '---\nid: "0123456789abcdef"\nschema: 1\n---\n\ncopy\n', 'utf8');
+  await mkdir(path.join(docs, 'Notes'), { recursive: true });
+  const future = path.join(docs, 'Notes', 'future.md');
+  await writeFile(future, '---\nid: "abcdef0123456789"\nschema: 9\n---\n\nkeep\n', 'utf8');
+  const before = await readFile(future, 'utf8');
+  const result = await createDesktopRecords(docs).migrate();
+  assert.equal(result.changed, 0);
+  assert.equal(result.issues.length, 2);
+  assert.equal(await readFile(future, 'utf8'), before);
+  const legacy = (await createDesktopRecords(docs).list()).find(item => item.relativePath === path.join('Links', 'one.md'));
+  assert.equal(legacy.id, '0123456789abcdef');
+});
+
+test('record inventory inherits link privacy for link notes and snapshots', async t => {
+  const root = await mkdtemp(path.join(os.tmpdir(), 'reversewear-records-'));
+  t.after(() => rm(root, { recursive: true, force: true }));
+  const docs = path.join(root, 'Documents');
+  const id = '01234567-89ab-cdef-0123-456789abcdef';
+  await mkdir(path.join(docs, 'Links'), { recursive: true });
+  await mkdir(path.join(docs, 'LinkNotes', id), { recursive: true });
+  await mkdir(path.join(docs, 'LinksSnapshots', id), { recursive: true });
+  await writeFile(path.join(docs, 'Links', 'paper.md'), `---\nid: "${id}"\ntype: "link"\nprivate: true\n---\n\nhttps://example.com\n`, 'utf8');
+  await writeFile(path.join(docs, 'LinkNotes', id, 'analysis.md'), '# Analysis\n', 'utf8');
+  await writeFile(path.join(docs, 'LinksSnapshots', id, 'page.md'), '# Saved page\n', 'utf8');
+  const listed = await createDesktopRecords(docs).list();
+  const notes = listed.filter(item => item.linkId === id);
+  assert.equal(notes.length, 2);
+  assert.ok(notes.every(item => item.private));
+});
+
+test('migration reports malformed metadata and ignores unrelated and imported-file Markdown', async t => {
+  const root = await mkdtemp(path.join(os.tmpdir(), 'reversewear-records-'));
+  t.after(() => rm(root, { recursive: true, force: true }));
+  const docs = path.join(root, 'Documents');
+  await mkdir(path.join(docs, 'Notes'), { recursive: true });
+  await mkdir(path.join(docs, 'Files', 'imported-id'), { recursive: true });
+  await mkdir(path.join(docs, 'Scratch'), { recursive: true });
+  const malformed = path.join(docs, 'Notes', 'malformed.md');
+  const imported = path.join(docs, 'Files', 'imported-id', 'readme.md');
+  const unrelated = path.join(docs, 'Scratch', 'private.md');
+  await writeFile(malformed, '---\nid: "abcdef0123456789"\nschema: "future-string"\n---\nbody\n', 'utf8');
+  await writeFile(imported, '# Original user file\n', 'utf8');
+  await writeFile(unrelated, '# Unmanaged note\n', 'utf8');
+  const originalImported = await readFile(imported, 'utf8');
+  const originalUnrelated = await readFile(unrelated, 'utf8');
+  const result = await createDesktopRecords(docs).migrate();
+  assert.equal(result.changed, 0);
+  assert.equal(result.issues.length, 1);
+  assert.match(result.issues[0].reason, /schema/);
+  assert.equal(await readFile(imported, 'utf8'), originalImported);
+  assert.equal(await readFile(unrelated, 'utf8'), originalUnrelated);
+});

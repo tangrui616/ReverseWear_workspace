@@ -1,0 +1,344 @@
+/* Keep the scrollport inside the canvas inset, including at the end of a long page. */
+:root {
+  --wb-layout-gap: 16px;
+  --wb-card-radius: 16px;
+  --wb-canvas-scrollbar: 8px;
+}
+
+#workbench {
+  --wb-card-background: var(--wb-panel);
+  --wb-card-border: var(--wb-line);
+  --wb-card-shadow: 0 2px 8px #1722300a;
+  --wb-radius: var(--wb-card-radius);
+}
+html[data-material="glass"] #workbench {
+  --wb-card-background: var(--glass-bg-card);
+  --wb-card-border: var(--glass-border-color);
+  --wb-card-shadow: var(--glass-highlight);
+}
+
+#workbench .wb-deck,
+#workbench .wb-canvas,
+#workbench .wb-main {
+  min-width: 0;
+  min-height: 0;
+  box-sizing: border-box;
+}
+
+.wb-canvas {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
+  padding: var(--wb-layout-gap);
+}
+
+#workbench .wb-main {
+  margin-inline-end: calc(-1 * var(--wb-canvas-scrollbar));
+  overflow: hidden auto;
+  scrollbar-gutter: stable;
+  scrollbar-color: auto;
+  scroll-padding-block: var(--wb-layout-gap);
+}
+
+.wb-main::-webkit-scrollbar {
+  width: var(--wb-canvas-scrollbar);
+}
+
+.wb-main::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--wb-muted) 45%, transparent);
+  background-clip: padding-box;
+  border: 2px solid transparent;
+  border-radius: 8px;
+}
+
+.wb-main > section {
+  min-width: 0;
+  margin: 0;
+}
+
+#workbench :is(
+  .wb-home-layout, .wb-home-left, .wb-home-right, .wb-home-timers,
+  .wb-idea-columns, .wb-board-layout, .wb-board-cards, .wb-kanban-lanes,
+  .wb-r-plan-grid, .wb-r-summary, .wb-r-cards, .wb-reader, .wb-file-workspace,
+  .wb-life-layout, .wb-life-columns, .wb-life-column-cards, .wb-week-idea-list, .wb-pdf-sidebar
+) {
+  gap: var(--wb-layout-gap);
+}
+
+#workbench :is(
+  .wb-panel, .wb-home-stopwatch, .wb-home-scene, .wb-drop, .wb-file-tab-rail,
+  .wb-r-create, .wb-r-plan-panel, .wb-r-editor, .wb-r-experiment-card, .wb-r-stat, .wb-r-empty,
+  .wb-board-card, .wb-kanban-lane, .wb-kanban-card, .wb-kanban-archive, .wb-week-idea, .wb-life-column, .wb-life-board-card,
+  .wb-pdf-panel, .wb-reader-notes, .note-workspace:not(.note-workspace--reader),
+  .web-collection__toolbar, .web-collection__directory, .web-collection__notes, .web-collection__page,
+  .clipboard-workspace__head, .clipboard-workspace__filters, .clipboard-workspace__actions,
+  .clipboard-workspace__list, .clipboard-workspace__detail,
+  .wb-settings__heading, .wb-settings__startup, .wb-settings__list-panel, .wb-settings__editor
+),
+#workbench .wb-main :is(
+  .wb-heading, .wb-reader-heading, .wb-plan-tabs, .wb-life-tabs, .wb-filters, .translation-card, .translation-heading, .translation-attribution
+),
+#wb-translation-popup .translation-card {
+  border: 1px solid var(--wb-card-border);
+  border-radius: var(--wb-card-radius);
+  background: var(--wb-card-background);
+  box-shadow: var(--wb-card-shadow);
+}
+
+#workbench .wb-main :is(.wb-heading, .wb-reader-heading, .wb-plan-tabs, .wb-life-tabs, .wb-filters, .translation-heading, .translation-attribution),
+#workbench .wb-settings__heading {
+  min-width: 0;
+  margin: 0;
+  padding: var(--wb-layout-gap);
+}
+
+#workbench .wb-main :is(.wb-plan-tabs, .wb-life-tabs, .wb-filters) {
+  padding-block: 8px;
+}
+
+#workbench .wb-main :is(#wb-weekly, #wb-experiments, #wb-plans, #wb-ideas, #wb-life) {
+  display: grid;
+  align-content: start;
+  gap: var(--wb-layout-gap);
+}
+#workbench .wb-main > :is(#wb-home, #wb-ideas, #wb-experiments, #wb-plans, #wb-files, #wb-life) {
+  min-height: 100%;
+}
+#workbench .wb-main:has(> #wb-home:not([hidden])) {
+  overflow-anchor: none;
+}
+#workbench :is(#wb-ideas, #wb-experiments, #wb-plans, #wb-life) {
+  grid-template-rows: auto auto minmax(min-content, 1fr);
+}
+#workbench #wb-experiments:has(.wb-r-editor:not([hidden])) {
+  grid-template-rows: auto auto auto minmax(min-content, 1fr);
+}
+#workbench .wb-r-archive {
+  display: grid;
+  align-content: start;
+  gap: var(--wb-layout-gap);
+}
+#workbench #wb-plans .wb-r-plan-grid {
+  align-items: stretch;
+}
+#workbench #wb-files {
+  display: grid;
+}
+#workbench #wb-ideas > [data-idea-pane="board"] {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: var(--wb-layout-gap);
+}
+#workbench #wb-life:has(> .wb-life-board:not([hidden])) {
+  grid-template-rows: auto auto minmax(min-content, 1fr) auto;
+}
+
+#workbench :is(.wb-week-draft, .wb-week-decisions, .wb-week-recap, .wb-life-board, .wb-r-list-heading, .wb-r-editor) {
+  margin-block: 0;
+}
+#workbench .wb-r {
+  padding-block-end: 0;
+}
+#workbench [data-file-overview] {
+  display: grid;
+  grid-template-rows: auto auto minmax(min-content, 1fr);
+  gap: var(--wb-layout-gap);
+  min-width: 0;
+}
+#workbench [data-file-overview] :is(.wb-drop, .wb-file-panel) {
+  margin-block: 0;
+}
+#workbench .wb-file-readers,
+#workbench .wb-pdf-reader-tab,
+#workbench .wb-reader-notes {
+  min-height: 0;
+  min-width: 0;
+}
+#workbench .wb-pdf-reader-tab {
+  display: grid;
+  gap: var(--wb-layout-gap);
+}
+#workbench :is(.wb-pdf-panel, .wb-reader-notes) {
+  overflow: hidden;
+}
+#workbench .wb-pdf-sidebar .wb-pdf-translation {
+  padding-block-end: var(--wb-layout-gap);
+}
+
+@media (min-width: 821px) {
+  #workbench .wb-main > #wb-files:has(.wb-pdf-reader-tab:not([hidden])) {
+    height: 100%;
+    min-height: 0;
+  }
+  #workbench .has-pdf-tabs,
+  #workbench .wb-file-readers,
+  #workbench .wb-pdf-reader-tab {
+    height: 100%;
+    min-height: 0;
+  }
+  #workbench .wb-pdf-reader-tab {
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+  #workbench .wb-pdf-reader-tab .wb-reader {
+    grid-template-rows: minmax(0, 1fr);
+  }
+  #workbench .wb-file-tab-rail { overflow-y: auto; }
+}
+
+#workbench .wb-r-savebar {
+  position: static;
+  margin-inline: 0;
+  margin-block-end: 0;
+}
+
+#workbench .wb-kanban-lane {
+  display: grid;
+  align-content: start;
+  gap: var(--wb-layout-gap);
+}
+#workbench :is(.wb-kanban-card, .wb-kanban-lane-heading) {
+  margin-block: 0;
+}
+
+#workbench .wb-main :is(.wb-home-list, .wb-r-task-list, .wb-life-records, .wb-board-gallery, .wb-board-editor) {
+  scroll-padding-block-end: var(--wb-layout-gap);
+}
+#workbench :is(.wb-r-editor, .wb-life-editor, .wb-board-gallery, .wb-board-editor, .wb-life-records, .wb-home-list) {
+  padding-block-end: var(--wb-layout-gap);
+}
+
+#workbench #wb-translation .translation-panel {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+#wb-translation-popup {
+  max-height: calc(100dvh - 2 * var(--wb-layout-gap));
+  width: min(1140px, calc(100vw - 2 * var(--wb-layout-gap)));
+  border-radius: var(--wb-card-radius);
+}
+#wb-translation-popup .translation-panel {
+  display: grid;
+  gap: var(--wb-layout-gap);
+  padding: var(--wb-layout-gap);
+}
+#wb-translation-popup .translation-layout {
+  gap: var(--wb-layout-gap);
+}
+#wb-translation-popup :is(.translation-heading, .translation-attribution) {
+  margin-block: 0;
+}
+
+#wb-translation > #wb-translation-content {
+  min-height: 0;
+  height: 100%;
+}
+
+@media (min-width: 871px) {
+  #workbench .wb-main > #wb-links {
+    height: 100%;
+    min-height: 430px;
+  }
+}
+
+@media (min-width: 901px) {
+  #workbench .wb-main > #wb-clipboard {
+    height: 100%;
+    min-height: 400px;
+  }
+}
+
+#workbench .wb-main > #wb-notes {
+  height: 100%;
+  min-height: 360px;
+}
+
+#workbench .wb-main > #wb-plans:has(.wb-memos:not([hidden])) {
+  height: 100%;
+  min-height: 440px;
+  grid-template-rows: auto minmax(0, 1fr);
+  align-content: stretch;
+}
+#workbench .wb-memos {
+  min-height: 0;
+}
+
+
+@media (min-width: 881px) and (min-height: 741px) {
+  #workbench .wb-main > :is(#wb-ideas, #wb-translation, #wb-life) {
+    height: 100%;
+  }
+  #workbench .wb-main > :is(#wb-ideas, #wb-life) {
+    align-content: stretch;
+    grid-template-rows: auto auto minmax(0, 1fr);
+  }
+  #workbench #wb-life:has(> .wb-life-board:not([hidden])) {
+    grid-template-rows: auto auto minmax(0, 1fr) auto;
+  }
+}
+
+/* Focus uses its own chrome and wallpaper, with the same canvas and card dimensions. */
+body:not(.workbench-active) .app-shell {
+  min-width: 0;
+  min-height: 0;
+  padding: 0 var(--wb-layout-gap) var(--wb-layout-gap);
+  gap: var(--wb-layout-gap);
+  overflow: auto;
+  scroll-padding-block: var(--wb-layout-gap);
+}
+.app-shell .topbar {
+  padding-inline: 0;
+}
+.app-shell :is(.timer-stage, .focus-footer-card) {
+  background: #15233138;
+  border: 1px solid #f0f4fc36;
+  border-radius: var(--wb-card-radius);
+  padding: var(--wb-layout-gap);
+}
+.app-shell .timer-stage {
+  flex: 1 0 auto;
+}
+.app-shell .focus-footer-card {
+  flex-shrink: 0;
+  display: grid;
+  gap: var(--wb-layout-gap);
+  backdrop-filter: blur(8px);
+}
+.app-shell .footer,
+.app-shell .bottom-note {
+  margin: 0;
+  padding: 0;
+}
+.app-shell .bottom-note {
+  padding-block-start: 8px;
+}
+body.zen-mode .app-shell .timer-stage {
+  background: transparent;
+  border-color: transparent;
+}
+@media (max-width: 760px) {
+  .app-shell .footer {
+    flex-wrap: wrap;
+    gap: var(--wb-layout-gap);
+  }
+}
+
+@media (max-height: 700px) {
+  .app-shell .session-title {
+    margin-block-start: 8px;
+  }
+  .app-shell .timer {
+    font-size: clamp(64px, 13vw, 106px);
+  }
+  .app-shell .timer.long {
+    font-size: clamp(54px, 11vw, 90px);
+  }
+  .app-shell .timer-progress {
+    margin-block: 8px;
+  }
+  .app-shell .presets {
+    margin-block-start: 8px;
+  }
+}

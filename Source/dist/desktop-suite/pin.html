@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="zh-CN" data-suite-page="pin">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>图片贴图</title>
+  <link rel="stylesheet" href="suite.css">
+  <script type="module" src="suite.mjs"></script>
+</head>
+<body class="pin-body">
+  <main class="pin-shell" aria-label="置顶图片">
+    <img id="pin-image" alt="剪贴板图片">
+    <div class="pin-controls" role="toolbar" aria-label="贴图控制">
+      <button type="button" data-pin-action="shrink" aria-label="缩小">−</button>
+      <button type="button" data-pin-action="grow" aria-label="放大">+</button>
+      <label title="透明度"><span>◐</span><input id="pin-opacity" type="range" min="0.2" max="1" step="0.01" value="1" aria-label="贴图透明度"></label>
+      <button type="button" data-pin-action="save" aria-label="另存图片">↓</button>
+      <button type="button" data-pin-action="close" aria-label="关闭贴图">×</button>
+    </div>
+    <div id="suite-toast" class="suite-toast" role="status"></div>
+  </main>
+</body>
+</html>

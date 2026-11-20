@@ -1,0 +1,50 @@
+{
+  "format": {
+    "sampleRate": 44100,
+    "channels": "source channels per file",
+    "cueFile": "cue.ogg"
+  },
+  "lines": {
+    "wake": {
+      "file": "line-1.mp3",
+      "durationMs": 1960,
+      "speechEndMs": 1960,
+      "text": "Access permission required."
+    },
+    "identity": {
+      "file": "line-2.mp3",
+      "durationMs": 1160,
+      "speechEndMs": 1160,
+      "text": "Identity verification."
+    },
+    "mount": {
+      "file": "line-3.mp3",
+      "durationMs": 1070,
+      "speechEndMs": 1070,
+      "text": "Access request received."
+    },
+    "load": {
+      "file": "line-4.mp3",
+      "durationMs": 1180,
+      "speechEndMs": 1180,
+      "text": "Beginning permission read."
+    },
+    "verified": {
+      "file": "line-5.mp3",
+      "durationMs": 1700,
+      "speechEndMs": 1700,
+      "text": "Read complete. Verification passed."
+    },
+    "welcome": {
+      "file": "line-6.wav",
+      "durationMs": 1470,
+      "speechEndMs": 1410,
+      "text": "Welcome to you."
+    }
+  },
+  "cue": {
+    "file": "cue.ogg",
+    "durationMs": 420,
+    "leadMs": 150
+  }
+}

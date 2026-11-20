@@ -1,0 +1,18 @@
+.wb-weekly-heading { display: flex; align-items: end; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
+.wb-week-draft-path { margin: .65em 0; color: var(--wb-muted); font: 12px/1.5 Consolas, monospace; overflow-wrap: anywhere; }
+#wb-resurfacing-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.wb-week-draft, .wb-week-decisions, .wb-week-recap { margin-top: 16px; }
+.wb-week-draft-content { max-height: 360px; overflow: auto; padding: 14px; border: 1px solid var(--wb-line); border-radius: 12px; background: var(--wb-panel-deep); color: var(--wb-text); font: 13px/1.65 var(--wb-mono, ui-monospace, monospace); white-space: pre-wrap; overflow-wrap: anywhere; }
+.wb-week-draft .wb-muted, .wb-week-decisions .wb-muted { color: var(--wb-muted); margin: 4px 0 12px; }
+.wb-week-idea-list { display: grid; gap: 10px; }
+.wb-week-idea { display: grid; grid-template-columns: minmax(180px, .65fr) minmax(180px, 1fr) minmax(125px, .35fr); align-items: center; gap: 12px; padding: 12px; border: 1px solid var(--wb-line); border-radius: 12px; background: var(--wb-panel); }
+.wb-week-idea .wb-entry-title { text-align: start; border: 0; padding: 0; background: transparent; color: var(--wb-accent-strong); font: inherit; font-weight: 650; cursor: pointer; }
+.wb-week-excerpt { margin: 0; color: var(--wb-muted); white-space: pre-wrap; overflow-wrap: anywhere; max-height: 5.2em; overflow: auto; }
+.wb-week-idea select, .wb-week-recap textarea, .wb-week-recap input { width: 100%; box-sizing: border-box; padding: 9px 11px; border: 1px solid var(--wb-line); border-radius: 10px; background: var(--wb-panel); color: var(--wb-text); font: inherit; }
+.wb-week-recap { display: grid; gap: 14px; }
+.wb-week-recap > label, .wb-week-recap fieldset { display: grid; gap: 7px; }
+.wb-week-recap fieldset { border: 1px solid var(--wb-line); border-radius: 12px; padding: 12px; }
+.wb-week-recap fieldset input + input { margin-top: 2px; }
+.wb-week-recap textarea { resize: vertical; }
+.wb-week-recap :is(textarea, input, select):focus-visible { outline: 2px solid var(--wb-accent); outline-offset: 1px; }
+@media (max-width: 760px) { .wb-week-idea { grid-template-columns: minmax(0, 1fr); } }

@@ -1,0 +1,39 @@
+.clipboard-workspace { display:grid; grid-template-rows:auto auto auto minmax(180px,1fr); gap:var(--wb-layout-gap,16px); min-height:100%; height:100%; color:var(--wb-text); }
+.clipboard-workspace__head { display:grid; grid-template-columns:minmax(0,1fr) minmax(220px,420px) auto; align-items:center; gap:12px; padding:14px; border:1px solid var(--wb-line); border-radius:var(--wb-radius,16px); background:var(--wb-panel); }
+.clipboard-workspace__head h1 { margin:0; font-size:18px; }
+.clipboard-workspace__head [data-cp-status] { color:var(--wb-muted); font-size:11px; }
+.clipboard-workspace__head label { min-width:0; }
+.clipboard-workspace__head input { width:100%; padding:9px 11px; border:1px solid var(--wb-line); border-radius:var(--wb-control-radius,8px); color:var(--wb-text); background:var(--wb-panel-deep,var(--wb-panel)); }
+.clipboard-workspace :is(button) { padding:7px 11px; border:1px solid var(--wb-line); border-radius:var(--wb-control-radius,8px); color:var(--wb-text); background:var(--wb-panel); font:inherit; cursor:pointer; }
+.clipboard-workspace button:hover { background:var(--wb-panel-deep,var(--wb-panel)); }
+.clipboard-workspace button[aria-pressed="true"] { color:white; border-color:transparent; background:var(--wb-accent-strong,var(--wb-accent)); }
+.clipboard-workspace button:disabled { cursor:default; opacity:.5; }
+.clipboard-workspace__filters { display:grid; gap:8px; min-width:0; padding:12px; border:1px solid var(--wb-line); border-radius:var(--wb-radius,16px); background:var(--wb-panel); }
+.clipboard-workspace__filters nav { display:flex; flex-wrap:wrap; gap:6px; }
+.clipboard-workspace__filters button { padding:5px 9px; font-size:11px; }
+.clipboard-workspace__actions { display:flex; align-items:center; flex-wrap:wrap; gap:8px; min-width:0; padding:10px 12px; border:1px solid var(--wb-line); border-radius:var(--wb-radius,16px); background:var(--wb-panel); }
+.clipboard-workspace__actions label { display:flex; align-items:center; gap:6px; color:var(--wb-muted); font-size:11px; }
+.clipboard-workspace__actions input { accent-color:var(--wb-accent); }
+.clipboard-workspace__actions [data-cp-selected-count] { margin-right:auto; color:var(--wb-muted); font-size:11px; }
+.clipboard-workspace [data-cp-delete-selected]:not(:disabled) { color:var(--wb-danger,#b04439); }
+.clipboard-workspace__delete { width:min(420px,calc(100vw - 32px)); margin:auto; padding:20px; color:var(--wb-text); background:var(--wb-panel); border:1px solid var(--wb-line); border-radius:var(--wb-radius,16px); }
+.clipboard-workspace__delete::backdrop { background:#10192965; }
+.clipboard-workspace__delete h2 { margin:0; font-size:16px; }
+.clipboard-workspace__delete footer { display:flex; justify-content:flex-end; gap:8px; }
+.clipboard-workspace__body { display:grid; grid-template-columns:minmax(0,1fr) minmax(280px,.8fr); gap:var(--wb-layout-gap,16px); min-height:0; }
+.clipboard-workspace__list,.clipboard-workspace__detail { min-width:0; min-height:0; overflow:auto; padding:12px var(--wb-layout-gap,16px) var(--wb-layout-gap,16px); border:1px solid var(--wb-line); border-radius:var(--wb-radius,16px); background:var(--wb-panel); }
+.clipboard-workspace__list { display:grid; align-content:start; gap:8px; }
+.clipboard-workspace__row { display:grid; grid-template-columns:auto minmax(0,1fr) auto; align-items:center; gap:9px; padding:9px; border:1px solid var(--wb-line); border-radius:var(--wb-control-radius,10px); background:var(--wb-panel-deep,var(--wb-panel)); }
+.clipboard-workspace__row[aria-selected="true"] { border-color:var(--wb-accent); }
+.clipboard-workspace__row > input { accent-color:var(--wb-accent); }
+.clipboard-workspace__open { display:grid; min-width:0; gap:3px; padding:0!important; border:0!important; text-align:left; background:transparent!important; }
+.clipboard-workspace__open strong { color:var(--wb-accent); font-size:10px; }
+.clipboard-workspace__open span { overflow:hidden; color:var(--wb-text); font-size:12px; text-overflow:ellipsis; white-space:nowrap; }
+.clipboard-workspace__open small { color:var(--wb-muted); font-size:10px; }
+.clipboard-workspace__detail h2 { margin:0 0 10px; font-size:15px; }
+.clipboard-workspace__detail pre { overflow:auto; min-height:100px; max-height:calc(100% - 90px); margin:0; padding:12px; border:1px solid var(--wb-line); border-radius:9px; background:var(--wb-panel-deep,var(--wb-panel)); font:12px/1.6 "Cascadia Code","Microsoft YaHei UI",sans-serif; white-space:pre-wrap; overflow-wrap:anywhere; }
+.clipboard-workspace__detail-actions { display:flex; flex-wrap:wrap; gap:7px; margin-top:10px; }
+.clipboard-workspace__empty,.clipboard-workspace__detail>p { align-self:center; justify-self:center; color:var(--wb-muted); font-size:12px; }
+.clipboard-sr-only { position:absolute; width:1px; height:1px; clip-path:inset(50%); overflow:hidden; white-space:nowrap; }
+@media(max-width:900px) { .clipboard-workspace { height:auto; min-height:100%; grid-template-rows:auto auto auto auto; } .clipboard-workspace__body { grid-template-columns:minmax(0,1fr); grid-template-rows:minmax(220px,auto) minmax(180px,auto); } }
+@media(max-width:620px) { .clipboard-workspace__head { grid-template-columns:minmax(0,1fr) auto; } .clipboard-workspace__head label { grid-column:1/-1; grid-row:2; } }

@@ -1,0 +1,59 @@
+.markdown-content {
+  min-width: 0;
+  max-width: 100%;
+  color: var(--wb-ink, var(--wb-text, #283747));
+  font: 14px/1.8 var(--wb-font, "Microsoft YaHei UI", sans-serif);
+  overflow-wrap: anywhere;
+  user-select: text;
+}
+.markdown-content > :first-child { margin-top: 0; }
+.markdown-content > :last-child { margin-bottom: 0; }
+.markdown-content :is(h1, h2, h3, h4, h5, h6) {
+  margin: 1.35em 0 .55em;
+  line-height: 1.4;
+  scroll-margin-top: 16px;
+}
+.markdown-content h1 { font-size: 1.6em; }
+.markdown-content h2 { font-size: 1.4em; }
+.markdown-content h3 { font-size: 1.2em; }
+.markdown-content p, .markdown-content ul, .markdown-content ol,
+.markdown-content blockquote, .markdown-content pre, .markdown-content table { margin: .7em 0; }
+.markdown-content :is(ul, ol) { padding-inline-start: 1.65em; }
+.markdown-content li { padding-inline-start: .15em; }
+.markdown-content__task-item { list-style: none; margin-inline-start: -1.45em; }
+.markdown-content__task-item input { margin-inline-end: .5em; accent-color: var(--wb-accent, #596df5); }
+.markdown-content blockquote {
+  padding-inline-start: 12px;
+  border-inline-start: 3px solid var(--wb-accent, #8491a3);
+  color: var(--wb-muted, #637183);
+}
+.markdown-content :not(pre) > code {
+  padding: .12em .4em;
+  border: 1px solid var(--wb-line, #d9dee7);
+  border-radius: 5px;
+  background: var(--wb-panel, #f3f5f8);
+  font: .9em/1.5 Consolas, "Cascadia Code", monospace;
+}
+.markdown-content pre {
+  max-width: 100%;
+  overflow: auto;
+  padding: 12px 14px;
+  border: 1px solid var(--wb-line, #d9dee7);
+  border-radius: 9px;
+  background: var(--wb-panel, #f3f5f8);
+  font: 12px/1.7 Consolas, "Cascadia Code", monospace;
+  white-space: pre;
+}
+.markdown-content pre code { font: inherit; }
+.markdown-content table { display: block; width: max-content; max-width: 100%; overflow: auto; border-collapse: collapse; }
+.markdown-content :is(th, td) { padding: 6px 10px; border: 1px solid var(--wb-line, #d9dee7); text-align: start; }
+.markdown-content th { background: var(--wb-panel, #f3f5f8); font-weight: 650; }
+.markdown-content hr { border: 0; border-top: 1px solid var(--wb-line, #d9dee7); }
+.markdown-content a { color: var(--wb-accent-strong, #4862d9); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.markdown-content img { display: none; }
+.markdown-content--compact { font-size: 12px; line-height: 1.55; }
+.markdown-content--inline { white-space: normal; font-family: inherit; font-size: inherit; line-height: inherit; }
+.markdown-content--compact :is(h1, h2, h3, h4, h5, h6) { margin-block: .8em .35em; font-size: 1.1em; }
+.markdown-content.wb-week-draft-content,
+.markdown-content.wb-week-excerpt,
+.markdown-content.wb-idea-text { white-space: normal; font-family: inherit; }

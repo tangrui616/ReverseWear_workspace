@@ -1,0 +1,52 @@
+.wb-risk-dialog {
+  color: var(--wb-text, inherit);
+  background: var(--wb-panel, Canvas);
+  border: 1px solid var(--wb-line, #80808055);
+  border-radius: var(--wb-card-radius);
+  width: min(850px, calc(100vw - 2 * var(--wb-layout-gap)));
+  max-height: calc(100dvh - 2 * var(--wb-layout-gap));
+  padding: 0;
+  box-shadow: 0 20px 90px #0005;
+}
+.wb-risk-dialog::backdrop { background: #18223880; backdrop-filter: blur(5px); }
+body:not(.workbench-active) #workbench:has(.wb-risk-dialog[open]) {
+  display: block !important;
+  position: fixed;
+  inset: 0;
+  height: 0;
+  overflow: hidden;
+}
+body:not(.workbench-active) #workbench:has(.wb-risk-dialog[open]) > :not(.wb-risk-dialog) { visibility: hidden; }
+.wb-risk-dialog header, .wb-risk-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 9px; }
+.wb-risk-dialog header { padding: var(--wb-layout-gap); justify-content: space-between; border-bottom: 1px solid var(--wb-line, #80808055); }
+.wb-risk-dialog h2, .wb-risk-dialog h3 { margin: 0; }
+.wb-risk-body { display: grid; gap: var(--wb-layout-gap); min-width: 0; }
+.wb-risk-dialog > .wb-risk-body { padding: var(--wb-layout-gap); }
+.wb-risk-status { margin: 0 var(--wb-layout-gap) var(--wb-layout-gap); white-space: pre-wrap; overflow-wrap: anywhere; }
+.wb-risk-status:empty { display: none; }
+.wb-risk-field { display: grid; gap: 5px; }
+.wb-risk-field input:not([type=checkbox]), .wb-risk-field textarea {
+  font: inherit;
+  color: inherit;
+  background: var(--wb-panel, Canvas);
+  border: 1px solid var(--wb-line, #80808066);
+  border-radius: 10px;
+  padding: 10px;
+  width: 100%;
+}
+.wb-risk-field textarea { resize: vertical; min-height: 180px; }
+.wb-risk-item { display: grid; gap: 8px; border: 1px solid var(--wb-card-border, #80808055); border-radius: var(--wb-card-radius); padding: var(--wb-layout-gap); background: var(--wb-card-background, Canvas); min-width: 0; }
+.wb-risk-item p, .wb-risk-body p { margin: 0; overflow-wrap: anywhere; }
+.wb-risk-item small, .wb-risk-dialog summary { overflow-wrap: anywhere; }
+.wb-risk-code {
+  font: 12px/1.6 ui-monospace, monospace;
+  color: inherit;
+  background: #80808015;
+  margin: 5px 0;
+  padding: 10px;
+  border-radius: 9px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  max-height: 300px;
+  overflow: auto;
+}

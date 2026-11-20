@@ -1,0 +1,183 @@
+import assert from 'node:assert/strict';
+import { BrowserWindow, clipboard } from 'electron';
+import { access, link as hardlink, mkdir, readFile, rename, writeFile } from 'node:fs/promises';
+import { execFile } from 'node:child_process';
+import path from 'node:path';
+import { setTimeout as wait } from 'node:timers/promises';
+import { promisify } from 'node:util';
+import { samplePdf } from './Workbench_Check_CodexV7.mjs';
+
+export async function runCaptureCheck(win, { workbench }) {
+  const root = process.env.STILLTIME_DEV_DATA_ROOT;
+  assert.ok(root);
+  const main = code => win.webContents.executeJavaScript(code, true);
+  const selector = value => 'document.querySelector(' + JSON.stringify(value) + ')';
+  const click = (value, execute = main) => execute(selector(value) + '.click()');
+  const input = (value, content, execute = main) => execute(`(() => {
+    const field = ${selector(value)}; field.value = ${JSON.stringify(content)};
+    field.dispatchEvent(new Event('input', { bubbles: true }));
+  })()`);
+  const until = async (operation, label) => {
+    const deadline = Date.now() + 13000;
+    do {
+      const result = await operation();
+      if (result) return result;
+      await wait(100);
+    } while (Date.now() < deadline);
+    throw new Error('Capture check did not reach: ' + label);
+  };
+  const visible = value => main('Boolean(' + selector(value) + '?.getClientRects().length)');
+  const ideaApi = code => main('window.stilltimeDesktop.capture.' + code);
+  const nav = view => click('.wb-nav [data-wb-nav=' + view + ']');
+  const promptSelector = '.wb-idea-dialog:has([data-source-name])';
+  const waitForPopup = () => until(() => BrowserWindow.getAllWindows().find(window =>
+    window !== win && window.webContents.getURL().endsWith('/capture.html') && window.isVisible()), 'capture popup');
+  const openPopup = async () => { await click('#wb-quick-capture'); return waitForPopup(); };
+  const typeThought = async thought => {
+    await until(() => visible(promptSelector + '[open]'), 'source idea editor');
+    await input(promptSelector + ' textarea', thought);
+    await click(promptSelector + ' [type=submit]');
+    await until(async () => !await visible(promptSelector + '[open]'), 'idea saved');
+  };
+  const originalClipboard = await clipboard.readText();
+  const inbox = path.join(root, 'Documents', 'Inbox');
+  const byOriginal = original => ideaApi('listIdeas()').then(items => items.find(item => item.original === original));
+  try {
+    await until(() => visible('#wb-quick-capture'), 'home controls');
+    const shortcut = await ideaApi('captureShortcut()');
+    assert.match(shortcut.accelerator, /^(Ctrl|Control)\+Alt\+I$/i);
+    assert.equal(shortcut.registered, true);
+    const rejected = await main("window.stilltimeDesktop.capture.setCaptureShortcut('I').then(() => false, () => true)");
+    assert.equal(rejected, true);
+    assert.deepEqual(await ideaApi('captureShortcut()'), shortcut);
+    const changed = await ideaApi('setCaptureShortcut("Ctrl+Alt+Shift+J")');
+    assert.deepEqual(changed, { accelerator: 'Control+Alt+Shift+J', registered: true });
+    const preferences = path.join(root, 'Settings', 'Stilltime', 'risk-preferences.json');
+    assert.equal(JSON.parse(await readFile(preferences, 'utf8')).captureShortcut, changed.accelerator);
+    await ideaApi('setCaptureShortcut(' + JSON.stringify(shortcut.accelerator) + ')');
+    await clipboard.writeText('https://example.invalid/research#clip');
+    const started = Date.now();
+    let pop = await openPopup();
+    const popup = code => pop.webContents.executeJavaScript(code, true);
+    assert.ok(Date.now() - started < 10000, 'quick capture opened under 10 seconds');
+    await until(() => popup('document.body.textContent.includes("example.invalid/research")'), 'clipboard source shown');
+    const intake = '#capture-text';
+    const captureText = '  跨应用灵感：语音频谱  ';
+    await input(intake, captureText, popup);
+    const date = await main("import('/date-boundary.mjs').then(module => module.getWorkDate())");
+    const intakePath = path.join(inbox, date + '.md');
+    const blockSource = path.join(root, 'capture-write-protection-fixture.txt');
+    await mkdir(inbox, { recursive: true });
+    await writeFile(blockSource, 'fixture write failure');
+    await hardlink(blockSource, intakePath);
+    await click('#capture-submit', popup);
+    await until(() => popup('document.querySelector("#capture-status")?.dataset.error === "true"'), 'write error presented');
+    assert.equal(await popup(selector(intake) + '.value'), captureText);
+    await rename(intakePath, blockSource + '.link');
+    pop.webContents.sendInputEvent({ type: 'keyDown', keyCode: 'Enter' });
+    pop.webContents.sendInputEvent({ type: 'keyUp', keyCode: 'Enter' });
+    await until(() => pop.isDestroyed(), 'Enter saves and closes');
+    await until(() => main('document.getElementById("wb-capture-count").textContent.includes("1 条")'), 'home count');
+    const [intakeEntry] = await ideaApi('listCaptures()');
+    assert.equal(intakeEntry.text, captureText);
+    assert.equal(intakeEntry.source, 'https://example.invalid/research#clip');
+    assert.match(await readFile(path.join(inbox, intakeEntry.date + '.md'), 'utf8'), /语音频谱/);
+    await clipboard.writeText('这是任意剪贴板文本');
+    win.minimize();
+    if (process.platform === 'win32') {
+      await promisify(execFile)('powershell.exe', ['-NoProfile', '-Command', "(New-Object -ComObject WScript.Shell).SendKeys('^%i')"], { windowsHide: true });
+      pop = await waitForPopup();
+    } else {
+      win.restore();
+      pop = await openPopup();
+    }
+    assert.equal(await popup(selector(intake) + '.value'), '');
+    pop.webContents.sendInputEvent({ type: 'keyDown', keyCode: 'Escape' });
+    pop.webContents.sendInputEvent({ type: 'keyUp', keyCode: 'Escape' });
+    await until(() => pop.isDestroyed(), 'Escape closes without saving');
+    win.restore();
+    assert.equal((await ideaApi('listCaptures()')).length, 1);
+
+    await nav('ideas');
+    await until(() => visible('[data-capture-convert]'), 'inbox entry');
+    await click('[data-capture-convert]');
+    await until(() => visible('[data-idea-edit] [name=title]'), 'converted card editor');
+    assert.equal(await main(selector('[data-idea-original]') + '.textContent'), captureText);
+    assert.equal(await main(selector('[data-idea-edit] [name=area]') + '.value'), 'unclassified');
+    const card = await byOriginal(captureText);
+    const repeatArgs = JSON.stringify({ captureId: intakeEntry.id, captureDate: intakeEntry.date });
+    assert.equal((await ideaApi('createIdea(' + repeatArgs + ')')).item.id, card.id);
+    assert.equal((await ideaApi('listIdeas()')).length, 1);
+    const share = (id, relativePath) => main('window.stilltimeDesktop.risk.share(' + JSON.stringify(id) + ',' + JSON.stringify(relativePath) + ')');
+    const dailyMarkdown = await readFile(intakePath, 'utf8');
+    const inboxId = dailyMarkdown.match(/^id: "([^"]+)"/m)[1];
+    await assert.rejects(share(inboxId, 'Inbox/' + intakeEntry.date + '.md'), /仅存于本机/);
+    const shared = await share(card.id, card.relativePath);
+    await access(shared.mirrorPath);
+    await input('[data-idea-edit] [name=title]', '临床语音实验');
+    await input('[data-idea-edit] [name=area]', 'emotion');
+    await input('[data-idea-edit] [name=status]', 'growing');
+    await input('[data-idea-edit] [name=tags]', '语音，Dataset');
+    await input('[data-idea-edit] [name=followup]', '保留原话后追加实验设计');
+    await click('[data-idea-edit] [type=submit]');
+    await until(() => main(selector('[data-idea-message]') + '.textContent === "已保存"'), 'save changes');
+    const saved = await byOriginal(captureText);
+    assert.equal(saved.private, true);
+    await assert.rejects(access(shared.mirrorPath), { code: 'ENOENT' });
+    await assert.rejects(share(saved.id, saved.relativePath), /不能共享/);
+    assert.deepEqual(saved.tags, ['语音', 'Dataset']);
+    assert.equal((await ideaApi('listIdeas({query:"临床 DATASET",status:"growing"})')).length, 1);
+    await access(path.join(root, 'Documents', 'Ideas', saved.id + '.md'));
+    await writeFile(path.join(root, 'Ideas.png'), (await win.capturePage()).toPNG());
+
+    const { item: link } = await main("window.stilltimeDesktop.workbench.saveLink({url:'https://example.invalid/paper',title:'有来源的笔记'})");
+    await nav('links');
+    await until(() => visible('[data-link-list] .wb-link-row__title'), 'link record');
+    await click('[data-link-list] .wb-link-row__title');
+    await click('[data-link-idea]');
+    await typeThought('请保留这条网页的想法');
+    const linkIdea = await byOriginal('请保留这条网页的想法');
+    assert.equal(linkIdea.source.linkId, link.id);
+    await nav('ideas');
+    await until(() => visible('[data-idea-card="' + linkIdea.id + '"]'), 'linked card');
+    await click('[data-idea-card="' + linkIdea.id + '"]');
+    await click('[data-idea-open-source]');
+    await until(() => visible('#wb-links [data-link-idea]'), 'link returned by stable id');
+    await click('[data-link-dialog] [data-link-cancel]');
+
+    const fixture = path.join(root, 'source-fixture.pdf');
+    await writeFile(fixture, samplePdf());
+    const imported = await workbench.importFiles([fixture]);
+    const pdf = imported.items[0];
+    await nav('files');
+    await until(() => visible('[data-file-list] button.wb-entry-title'), 'PDF in library');
+    await click('[data-file-list] button.wb-entry-title');
+    await until(() => main(selector('.workbench-pdf__viewport') + '?.textContent.includes("first page")'), 'PDF page 1');
+    await click('.workbench-pdf__next');
+    await until(() => main(selector('.workbench-pdf__viewport') + '?.textContent.includes("second page")'), 'PDF page 2');
+    const quote = await main(`(() => {
+      const range = document.createRange(), selected = window.getSelection();
+      range.selectNodeContents(document.querySelector('[data-page-number="2"] .workbench-pdf__text-layer span'));
+      selected.removeAllRanges(); selected.addRange(range);
+      document.dispatchEvent(new Event('selectionchange'));
+      return selected.toString();
+    })()`);
+    await until(() => main('!' + selector('[data-pdf-capture]') + '.disabled'), 'PDF quote selected');
+    await click('[data-pdf-capture]');
+    await typeThought('数据集有一个可借鉴的处理步骤');
+    const pdfIdea = await byOriginal('数据集有一个可借鉴的处理步骤');
+    assert.equal(pdfIdea.source.fileId, pdf.id);
+    assert.equal(pdfIdea.source.page, 2);
+    assert.equal(pdfIdea.source.quote, quote);
+    await click('.workbench-pdf__previous');
+    await until(() => main(selector('.workbench-pdf__viewport') + '?.textContent.includes("first page")'), 'returned to page 1');
+    await nav('ideas');
+    await until(() => visible('[data-idea-card="' + pdfIdea.id + '"]'), 'PDF card listed');
+    await click('[data-idea-card="' + pdfIdea.id + '"]');
+    await click('[data-idea-open-source]');
+    await until(() => main(selector('.workbench-pdf__page-input') + '?.value === "2" && window.getSelection().toString() === ' + JSON.stringify(quote)), 'PDF page and quote returned');
+    await writeFile(path.join(root, 'PDF_Quote.png'), (await win.capturePage()).toPNG());
+    console.log('CAPTURE_VERIFY_OK');
+    win.close();
+  } finally { await clipboard.writeText(originalClipboard); }
+}

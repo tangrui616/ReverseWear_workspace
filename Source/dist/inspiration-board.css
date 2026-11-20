@@ -1,0 +1,33 @@
+.wb-board-layout { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: stretch; gap: var(--wb-layout-gap, 12px); }
+.wb-board-gallery, .wb-board-editor { min-width: 0; }
+.wb-board-toolbar { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.wb-board-toolbar input { flex: 1; min-width: 0; padding: 10px 13px; border: 1px solid var(--wb-line); border-radius: 12px; background: var(--wb-panel); color: var(--wb-text); font: inherit; }
+.wb-board-toolbar input:focus-visible { outline: 2px solid var(--wb-accent); outline-offset: 2px; }
+.wb-board-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); align-items: start; gap: 14px; }
+.wb-board-card { min-width: 0; overflow: hidden; border: 1px solid var(--wb-line); border-radius: 15px; background: var(--wb-panel); transition: border-color .18s ease, transform .18s ease, box-shadow .18s ease; }
+.wb-board-card:hover, .wb-board-card.is-selected { border-color: color-mix(in srgb, var(--wb-accent) 55%, var(--wb-line)); box-shadow: 0 10px 28px #17304a12; transform: translateY(-2px); }
+.wb-board-card-image { display: block; width: 100%; max-height: 240px; object-fit: cover; background: var(--wb-panel-deep); }
+.wb-board-card-body { padding: 14px; }
+.wb-board-card-title { display: block; padding: 0; border: 0; background: transparent; color: var(--wb-text); font: inherit; font-weight: 650; text-align: left; cursor: pointer; }
+.wb-board-card-title:hover { color: var(--wb-accent-strong); }
+.wb-board-card-url { display: block; max-width: 100%; margin-top: 7px; padding: 0; overflow: hidden; border: 0; background: transparent; color: var(--wb-accent-strong); font-size: 12px; text-align: left; text-overflow: ellipsis; white-space: nowrap; cursor: pointer; }
+.wb-board-card-copy { margin: 12px 0 0; color: var(--wb-muted); font-size: 13px; line-height: 1.6; white-space: pre-wrap; overflow-wrap: anywhere; }
+.wb-board-card-borrow { padding: 10px 11px; border-radius: 10px; background: var(--wb-panel-deep); color: var(--wb-text); }
+.wb-board-image-box { display: grid; justify-items: start; gap: 9px; }
+.wb-board-image-preview { display: grid; place-items: center; width: 100%; min-height: 132px; max-height: 280px; overflow: hidden; border: 1px dashed var(--wb-line); border-radius: 12px; background: var(--wb-panel-deep); color: var(--wb-muted); }
+.wb-board-image-preview img { display: block; max-width: 100%; max-height: 280px; object-fit: contain; }
+.wb-board-editor .wb-form { gap: 10px; }
+@media (max-width: 560px) { .wb-board-cards { grid-template-columns: minmax(0, 1fr); } }
+
+.wb-board-cards > .wb-empty { grid-column: 1 / -1; }
+
+@media (min-width: 881px) and (min-height: 741px) {
+  .wb-board-layout { min-height: 0; }
+  .wb-board-gallery,
+  .wb-board-editor { min-height: 0; overflow: auto; }
+  .wb-board-cards { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); }
+}
+
+@media (max-width: 880px) {
+  .wb-board-layout { grid-template-columns: minmax(0, 1fr); }
+}

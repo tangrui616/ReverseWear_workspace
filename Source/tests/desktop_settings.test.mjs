@@ -1,0 +1,31 @@
+import assert from 'node:assert/strict';
+import { mkdtemp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
+import os from 'node:os';
+import path from 'node:path';
+import { test } from 'node:test';
+import { openDesktopSettings } from '../desktop_settings.mjs';
+
+test('settings survive a version-directory switch with personal documents kept separate', async t => {
+  const root = await mkdtemp(path.join(os.tmpdir(), 'stilltime-settings-'));
+  t.after(() => rm(root, { recursive: true, force: true }));
+  const versions = ['CodexV6', 'CodexV7'].map(version => path.join(root, 'Programs', 'Stilltime', version));
+  const notes = path.join(root, 'Documents', 'Notes');
+  for (const folder of [...versions, notes]) await mkdir(folder, { recursive: true });
+  const document = path.join(notes, 'personal.md');
+  await writeFile(document, '# Test note\n');
+  const first = openDesktopSettings(root);
+  first.saveFolders([path.join(root, 'Wallpapers')]);
+  first.saveState({ wallpaperId: 'scene-test', sortBy: 'modified', timer: { total: 900000, endAt: 1800000, running: true } });
+  const startupIdentity = { identity: '验收名称', identityId: 'RW-TEST', accessLevel: '研究员' };
+  first.saveState({ startupIdentity });
+  assert.equal(first.getState().timer.endAt, 1800000);
+  first.saveState({ wallpaperId: 'scene-test', sortBy: 'modified', timer: { total: 900000, endAt: 1800001, running: true } });
+  await writeFile(path.join(versions[1], 'release-marker'), 'next version');
+  const reopened = openDesktopSettings(root);
+  assert.equal(reopened.getState().wallpaperId, 'scene-test');
+  assert.equal(reopened.getState().sortBy, 'modified');
+  assert.equal(reopened.getState().timer.endAt, 1800001);
+  assert.deepEqual(reopened.getState().startupIdentity, startupIdentity);
+  assert.deepEqual(reopened.getFolders(), first.getFolders());
+  assert.equal(await readFile(document, 'utf8'), '# Test note\n');
+});

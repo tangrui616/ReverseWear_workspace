@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f6f5f2">
+  <meta name="stilltime-edition" content="workbench-v18">
+  <meta name="stilltime-library-sort" content="v4">
+  <meta name="stilltime-scene-player" content="v5">
+  <meta name="description" content="反穿衣工作台。用本地壁纸陪伴专注，也把想法、阅读和计划留在本机。">
+  <title>反穿衣工作台</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="workbench.css">
+  <link rel="stylesheet" href="home.css">
+  <link rel="stylesheet" href="home-translation.css">
+  <link rel="stylesheet" href="workbench-pdf.css">
+  <link rel="stylesheet" href="research.css">
+  <link rel="stylesheet" href="link-notes.css">
+  <link rel="stylesheet" href="appearance.css">
+  <link rel="stylesheet" href="ideas.css">
+  <link rel="stylesheet" href="global-search.css">
+  <link rel="stylesheet" href="weekly-review.css">
+  <link rel="stylesheet" href="translation.css">
+  <link rel="stylesheet" href="translation-layout.css">
+  <link rel="stylesheet" href="life.css">
+  <link rel="stylesheet" href="note-workspace.css">
+  <link rel="stylesheet" href="inspiration-board.css">
+  <link rel="stylesheet" href="link-organization.css">
+  <link rel="stylesheet" href="link-library.css">
+  <link rel="stylesheet" href="tag-suggestions.css">
+  <link rel="stylesheet" href="focus-theme.css">
+  <link rel="stylesheet" href="mac-workbench.css">
+  <link rel="stylesheet" href="article-inbox.css">
+  <link rel="stylesheet" href="glass-theme.css">
+  <link rel="stylesheet" href="clipboard-page.css">
+  <link rel="stylesheet" href="web-collection.css">
+  <link rel="stylesheet" href="workbench-settings.css">
+  <link rel="stylesheet" href="workbench-layout.css">
+  <link rel="stylesheet" href="markdown-content.css">
+  <link rel="stylesheet" href="startup/startup.css">
+</head>
+<body class="workbench-active">
+  <header class="mac-titlebar" aria-label="窗口标题栏">
+    <div class="mac-window-controls" aria-label="窗口控制">
+      <button type="button" data-window-command="close" aria-label="关闭窗口" title="关闭窗口"><span aria-hidden="true">×</span></button>
+      <button type="button" data-window-command="minimize" aria-label="最小化窗口" title="最小化窗口"><span aria-hidden="true">−</span></button>
+      <button type="button" data-window-command="maximize" aria-label="最大化窗口" title="最大化窗口"><span aria-hidden="true">+</span></button>
+    </div>
+    <span>反穿衣工作台</span>
+  </header>
+  <dialog id="wb-quit" class="mac-quit" aria-labelledby="wb-quit-heading">
+    <h2 id="wb-quit-heading"></h2>
+    <p></p>
+    <div data-quit-actions class="mac-quit__actions">
+      <button type="button" data-quit-view>查看未保存的信息</button>
+      <button type="button" data-quit-save>保存并关闭</button>
+    </div>
+    <div data-quit-targets class="mac-quit__targets" hidden></div>
+  </dialog>
+  <div id="backdrop" class="backdrop"><img id="backgroundImage" src="landscape.svg" alt=""><video id="backgroundVideo" muted loop playsinline hidden></video><iframe id="backgroundWeb" title="实时壁纸画面" sandbox="allow-scripts allow-same-origin" allow="autoplay" referrerpolicy="no-referrer" hidden></iframe></div>
+  <div id="wallpaper-glass-overlay" aria-hidden="true"></div>
+  <div class="shade" aria-hidden="true"></div><div class="grain" aria-hidden="true"></div>
+  <div class="app-shell">
+    <header class="topbar chrome">
+      <a class="brand" href="./" aria-label="反穿衣首页"><span class="brand-mark" data-wb-icon="infinity"></span><span>反穿衣<span class="brand-en">REVERSEWEAR</span></span></a>
+      <div class="top-actions"><button id="backToWorkbench" class="status-pill" type="button"><span data-wb-icon="arrowLeft"></span> 工作台</button><button id="libraryStatus" class="status-pill" title="打开壁纸库"><span class="status-dot"></span><span id="connectionText">你的时间，你的风景</span></button><button id="fullscreen" class="icon-button" title="全屏 · F" aria-label="切换全屏"><svg viewBox="0 0 24 24"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></svg></button><button id="settingsButton" class="icon-button" title="时间与显示设置" aria-label="打开设置"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 17h16"/><circle cx="9" cy="7" r="3"/><circle cx="15" cy="17" r="3"/></svg></button></div>
+    </header>
+    <main class="timer-stage">
+      <div class="eyebrow chrome"><span class="tiny-line"></span> A LITTLE SPACE FOR YOURSELF <span class="tiny-line"></span></div>
+      <button id="titleButton" class="session-title" title="修改本次倒计时名称">给此刻，专注一点。</button>
+      <div id="timer" class="timer" role="timer" aria-label="剩余 25 分钟">25<span class="time-colon">:</span>00</div>
+      <div class="timer-meta"><span id="timerState">准备好，开始一段专注时光</span><span class="meta-dot">·</span><span id="endsAt">25 分钟</span></div>
+      <div class="timer-progress" aria-hidden="true"><span id="progress"></span></div>
+      <div class="timer-actions chrome"><button id="reset" class="round-button" title="重置 · R" aria-label="重置倒计时"><svg viewBox="0 0 24 24"><path d="M4 10a8 8 0 1 1 1 8M4 4v6h6"/></svg></button><button id="start" class="start-button"><svg id="playIcon" viewBox="0 0 24 24"><path d="m9 5 11 7-11 7Z"/></svg><span id="startText">开始专注</span><kbd>SPACE</kbd></button><button id="sound" class="round-button" aria-label="切换结束提示音" aria-pressed="true" title="结束提示音已开启"><svg viewBox="0 0 24 24"><path d="m11 5-6 5H2v4h3l6 5Zm4 3a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14"/></svg></button></div>
+      <div class="presets chrome" aria-label="选择倒计时时长"><button data-minutes="15">15 分钟</button><button data-minutes="25" class="active">25 分钟</button><button data-minutes="45">45 分钟</button><button data-minutes="60">60 分钟</button><button id="customTime">自定义 <span data-wb-icon="arrowUpRight"></span></button></div>
+      <div class="focus-wallpaper-controls chrome" role="group" aria-label="背景播放设置">
+        <button id="wallpaperRotation" type="button" aria-label="每分钟自动换背景" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7H7a4 4 0 0 0-4 4m14-7 3 3-3 3M4 17h13a4 4 0 0 0 4-4m-14 1-3 3 3 3"/></svg><span>自动换背景</span></button>
+        <button id="wallpaperSound" type="button" aria-pressed="false"><svg aria-hidden="true"></svg><span>壁纸声音</span></button>
+      </div>
+    </main>
+    <div class="focus-footer-card chrome">
+      <footer class="footer chrome"><div class="wallpaper-caption"><span class="caption-icon" data-wb-icon="image"></span><div><span class="caption-label">此刻的风景</span><button id="currentWallpaper">远山 · 静谧时分</button></div><span id="wallpaperKind" class="kind-tag">内置风景</span><button type="button" id="inspectScene" class="inspect-scene" hidden>检查场景</button></div><div class="footer-actions"><div class="wallpaper-steps" role="group" aria-label="按壁纸库顺序切换背景"><button id="prevWallpaper" type="button" class="icon-button" aria-label="上一张壁纸" title="上一张壁纸"><svg aria-hidden="true"></svg></button><button id="nextWallpaper" type="button" class="icon-button" aria-label="下一张壁纸" title="下一张壁纸"><svg aria-hidden="true"></svg></button></div><button id="random" class="quiet-button" title="随机切换背景"><svg viewBox="0 0 24 24"><path d="m17 3 4 4-4 4m0 2 4 4-4 4M3 7h3c5 0 7 10 12 10h3M3 17h3c2 0 3-2 5-5m3-4c1-1 2-1 4-1h3"/></svg><span>换个风景</span></button><button id="wallpaperButton" class="library-button"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="m3 16 5-5 4 4 3-3 6 6"/><circle cx="16" cy="9" r="1"/></svg>壁纸库 <span id="libraryCount">+</span></button><span class="footer-divider"></span><button id="zen" class="icon-button" aria-label="隐藏界面" title="沉浸模式 · H"><svg viewBox="0 0 24 24"><path d="M3 8V3h5m8 0h5v5M3 16v5h5m8 0h5v-5M8 12h8"/></svg></button></div></footer>
+      <div class="bottom-note chrome"><span>让时间慢下来，让注意力回到当下。</span><span id="clock"></span></div>
+    </div>
+  </div>
+  <button id="exitZen" class="exit-zen" hidden>显示控制 <kbd>H</kbd></button>
+  <div id="toast" class="toast" role="status"></div>
+  <dialog id="sceneDiagnosticsDialog" class="settings-dialog scene-diagnostics-dialog" aria-labelledby="sceneDiagnosticsHeading">
+    <div class="dialog-heading"><h2 id="sceneDiagnosticsHeading">场景检查报告</h2><button class="close-button" data-close="sceneDiagnosticsDialog" aria-label="关闭场景检查报告">×</button></div>
+    <textarea id="sceneDiagnosticsReport" rows="10" readonly aria-label="场景资源检查结果"></textarea>
+  </dialog>
+  <dialog id="settingsDialog" class="settings-dialog">
+    <div class="dialog-heading"><div><span class="section-kicker">MAKE IT YOURS</span><h2>留一段时间给自己</h2></div><button class="close-button" data-close="settingsDialog" aria-label="关闭设置">×</button></div>
+    <label class="field-label" for="sessionName">这一刻，想做什么？</label><input id="sessionName" maxlength="48" placeholder="给此刻，专注一点。">
+    <div class="segmented"><button id="durationMode" class="active" type="button">倒计时时长</button><button id="deadlineMode" type="button">指定截止时间</button></div>
+    <div id="durationFields" class="duration-fields"><label><input id="hoursInput" type="number" min="0" max="999" value="0"><span>小时</span></label><span>:</span><label><input id="minutesInput" type="number" min="0" max="59" value="25"><span>分钟</span></label><span>:</span><label><input id="secondsInput" type="number" min="0" max="59" value="0"><span>秒</span></label></div>
+    <div id="deadlineFields" hidden><label class="field-label" for="deadlineInput">在这个时刻抵达</label><input id="deadlineInput" type="datetime-local"><p class="field-help">使用此设备的本地时间，设置后立即开始。</p></div>
+    <div class="display-heading"><span class="field-label">画面氛围</span><span id="dimValue">35%</span></div><input id="dimInput" type="range" min="0" max="80" value="35" aria-label="背景遮罩强度">
+    <label class="toggle-row"><span>完成时播放提示音</span><input id="soundSetting" type="checkbox" checked></label>
+    <p id="settingsError" class="inline-error" role="alert"></p><button id="applySettings" class="apply-button">设定这一刻 <span data-wb-icon="arrowUpRight"></span></button><p class="settings-note">空格开始 / 暂停 · F 全屏 · H 沉浸 · R 重置</p>
+  </dialog>
+  <dialog id="libraryDialog" class="library-dialog">
+    <div class="dialog-heading"><div><span class="section-kicker">YOUR PERSONAL LANDSCAPES</span><h2>选一处喜欢的风景 <span id="drawerCount"></span></h2></div><button class="close-button" data-close="libraryDialog" aria-label="关闭壁纸库">×</button></div>
+    <div class="library-toolbar"><label class="search-field"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><input id="search" type="search" placeholder="搜索壁纸名称…" autocomplete="off"></label><button id="pickFolder" class="import-button">连接壁纸文件夹 <span data-wb-icon="arrowUpRight"></span></button><button id="pickFiles" class="icon-button" title="选择图片或视频" aria-label="选择图片或视频"><svg viewBox="0 0 24 24"><path d="M12 3v12m-4-4 4 4 4-4M4 15v6h16v-6"/></svg></button></div>
+    <div class="library-filters"><div class="filter-options"><button data-filter="all" class="active">全部</button><button data-filter="video">视频</button><button data-filter="scene">场景</button><button data-filter="web">网页</button><button data-filter="preview">仅预览</button><button data-filter="favorite">收藏 <span>♡</span></button></div><span id="sourceLabel">本地文件，留在本地</span></div>
+    <div class="library-sort-row"><label for="wallpaperSort">排序</label><select id="wallpaperSort" aria-describedby="sortHint"><option value="created">生成时间（新到旧）</option><option value="fileName">文件名（A–Z）</option><option value="name">壁纸名称（A–Z）</option><option value="modified">最后更新时间（新到旧）</option><option value="size">文件大小（大到小）</option></select><span id="sortHint">顺序切换和轮播均按所选分类与排序进行。</span></div>
+    <div class="desktop-folder-controls"><details id="folderManager" hidden><summary>已添加的文件夹</summary><ul id="folderList"></ul></details><button id="refreshLibrary" type="button" class="import-button">刷新壁纸库</button></div>
+    <div id="libraryGrid" class="library-grid"></div><div id="emptyState" class="empty-state" hidden><span data-wb-icon="image"></span><h3>把喜欢的风景带进来</h3><p>添加图片、视频目录或 Wallpaper Engine 的 431960 文件夹。</p><button id="emptyPick" class="apply-button">选择壁纸文件夹</button></div>
+    <button id="loadMore" class="load-more" hidden>再看一些 ↓</button>
+    <div class="library-note"><span class="status-dot"></span><span id="libraryHint">兼容的场景和网页壁纸会实时播放。渲染失败时显示预览图或内置背景。</span></div>
+  </dialog>
+  <input id="fileInput" type="file" accept="image/*,video/*" multiple hidden>
+  <div id="workbench" class="wb">
+    <aside class="wb-rail">
+      <button class="wb-brand" type="button" data-wb-nav="home" aria-label="反穿衣工作台今天">
+        <span class="wb-mark" aria-hidden="true">
+          <svg viewBox="0 0 48 48" focusable="false">
+            <path d="M24 4a20 20 0 1 1 0 40 20 20 0 1 1 0-40z"/>
+            <path d="M4 24c0-5 3.6-8.4 8.3-8.4 5.4 0 8.5 4.3 11.7 8.4s6.4 8.4 11.7 8.4c4.7 0 8.3-3.4 8.3-8.4s-3.6-8.4-8.3-8.4c-5.3 0-8.5 4.3-11.7 8.4s-6.3 8.4-11.7 8.4C7.6 32.4 4 29 4 24z"/>
+          </svg>
+        </span>
+        <strong>反穿衣</strong>
+      </button>
+      <nav class="wb-nav" aria-label="工作台">
+        <button data-wb-nav="home" title="今天" aria-label="今天"><span data-wb-icon="home"></span><span>今天</span></button>
+        <button data-wb-nav="ideas" title="灵感" aria-label="灵感"><span data-wb-icon="bulb"></span><span>灵感</span></button>
+        <button data-wb-nav="weekly" title="周复盘" aria-label="周复盘"><span data-wb-icon="plan"></span><span>复盘</span></button>
+        <button data-wb-nav="links" title="网页收藏" aria-label="网页收藏"><span data-wb-icon="link"></span><span>收藏</span></button>
+        <button data-wb-nav="notes" title="笔记" aria-label="笔记"><span data-wb-icon="note"></span><span>笔记</span></button>
+        <button data-wb-nav="experiments" title="实验记录" aria-label="实验记录"><span data-wb-icon="flask"></span><span>实验</span></button>
+        <button data-wb-nav="plans" title="备忘录" aria-label="备忘录"><span data-wb-icon="plan"></span><span>速记</span></button>
+        <button data-wb-nav="files" title="上传文件" aria-label="上传文件"><span data-wb-icon="file"></span><span>文库</span></button>
+        <button data-wb-nav="translation" title="离线翻译" aria-label="离线翻译"><span data-wb-icon="language"></span><span>翻译</span></button>
+        <button data-wb-nav="life" title="生活与思考" aria-label="生活与思考"><span data-wb-icon="heart"></span><span>慎思</span></button>
+        <button type="button" data-wb-nav="clipboard" title="剪贴板" aria-label="剪贴板"><span data-wb-icon="note"></span><span>剪贴</span></button>
+      </nav>
+      <div class="wb-rail-bottom">
+        <button class="wb-focus-nav" data-wb-nav="focus" title="专注计时" aria-label="专注计时"><span data-wb-icon="timer"></span><span>专注</span><span class="wb-focus-clock" aria-hidden="true"></span></button>
+    <div class="wb-local"><span></span> 本地工作区</div>
+      </div>
+    </aside>
+    <div class="wb-deck">
+      <header class="wb-top">
+        <span>工作台 <span aria-hidden="true">/</span> <strong id="wb-location">今天</strong></span>
+          <div class="wb-top-tools">
+          <time id="wb-today"></time>
+            <button class="wb-appearance-trigger wb-risk-launch" type="button" data-global-search-open title="全局搜索（Ctrl+K）" aria-keyshortcuts="Control+K"><span data-wb-icon="search"></span><span>搜索</span><kbd>Ctrl K</kbd></button>
+            <button class="wb-appearance-trigger wb-risk-launch" type="button" data-risk-open="settings"><span data-wb-icon="sliders"></span><span>数据与备份</span></button>
+          <button id="wb-appearance" class="wb-appearance-trigger" type="button" aria-expanded="false" aria-controls="wb-appearance-panel">
+            <span data-wb-icon="palette"></span><span>外观</span>
+          </button>
+          <button class="wb-appearance-trigger" type="button" data-wb-nav="settings"><span data-wb-icon="sliders"></span><span>设置</span></button>
+          <section id="wb-appearance-panel" class="wb-appearance-panel" aria-labelledby="wb-appearance-title" hidden>
+            <h2 id="wb-appearance-title" class="wb-appearance-heading">外观</h2>
+            <div class="wb-appearance-section">
+              <h3 id="wb-mode-label">显示模式</h3>
+              <div class="wb-segmented" role="group" aria-labelledby="wb-mode-label">
+                <button type="button" data-mode-choice="light" aria-pressed="false"><span data-wb-icon="sun"></span>浅色</button>
+                <button type="button" data-mode-choice="dark" aria-pressed="false"><span data-wb-icon="moon"></span>深色</button>
+                <button type="button" data-mode-choice="system" aria-pressed="true"><span data-wb-icon="desktop"></span>跟随系统</button>
+              </div>
+            </div>
+            <div class="wb-appearance-section">
+              <h3 id="wb-palette-label">主题色</h3>
+              <div class="wb-swatches" role="group" aria-labelledby="wb-palette-label">
+                <button type="button" class="wb-swatch" data-palette-choice="mist" aria-pressed="true"><span class="wb-swatch-color"><span data-wb-icon="check"></span></span>雾灰</button>
+                <button type="button" class="wb-swatch" data-palette-choice="ocean" aria-pressed="false"><span class="wb-swatch-color"><span data-wb-icon="check"></span></span>海蓝</button>
+                <button type="button" class="wb-swatch" data-palette-choice="sage" aria-pressed="false"><span class="wb-swatch-color"><span data-wb-icon="check"></span></span>鼠尾草</button>
+                <button type="button" class="wb-swatch" data-palette-choice="plum" aria-pressed="false"><span class="wb-swatch-color"><span data-wb-icon="check"></span></span>暮紫</button>
+                <button type="button" class="wb-swatch" data-palette-choice="sand" aria-pressed="false"><span class="wb-swatch-color"><span data-wb-icon="check"></span></span>砂金</button>
+              </div>
+            </div>
+            <div class="wb-appearance-section">
+              <h3 id="wb-material-label">界面材质</h3>
+              <div class="wb-segmented wb-segmented--material" role="group" aria-labelledby="wb-material-label">
+                <button type="button" data-material-choice="solid" aria-pressed="true">经典实体</button>
+                <button type="button" data-material-choice="glass" aria-pressed="false">原生毛玻璃</button>
+              </div>
+              <div id="wb-glass-blur-control" class="wb-glass-blur-control" hidden>
+                <label for="wb-glass-blur">模糊强度</label>
+                <input id="wb-glass-blur" type="range" min="0" max="48" step="1" value="24" aria-valuetext="24 px">
+                <output id="wb-glass-blur-value" for="wb-glass-blur">24 px</output>
+              </div>
+            </div>
+            <p id="wb-appearance-status" class="wb-appearance-status" role="status" hidden></p>
+          </section>
+        </div>
+      </header>
+      <div class="wb-canvas">
+        <main id="wb-main" class="wb-main">
+          <section id="wb-home" class="wb-home-layout">
+            <div class="wb-home-left">
+              <section class="wb-panel wb-home-card" aria-labelledby="wb-home-prompts-title">
+                <header><h2 id="wb-home-prompts-title">提示词收集栏</h2><button class="wb-button" id="wb-home-prompt-new" type="button">新建提示词</button></header>
+                <div class="wb-home-list" id="wb-home-prompts"></div>
+              </section>
+              <section class="wb-panel wb-home-card" aria-labelledby="wb-home-clipboard-title">
+                <header><h2 id="wb-home-clipboard-title">最近剪贴</h2><button class="wb-button" data-wb-nav="clipboard" type="button">打开剪贴板</button></header>
+                <div class="wb-home-list" id="wb-home-clipboard" aria-label="最近 10 条剪贴记录"></div>
+              </section>
+              <section class="wb-panel wb-home-card" aria-labelledby="wb-home-todos-title">
+                <header><h2 id="wb-home-todos-title">待办</h2><button class="wb-button" data-wb-nav="plans" data-today-plan type="button">查看计划</button></header>
+                <form id="wb-home-todo-form" class="wb-form"><input type="text" name="text" maxlength="500" required aria-label="添加今日待办" placeholder="添加待办，回车确认"><button class="wb-button" type="submit">添加</button></form>
+                <div class="wb-home-list" id="wb-home-todos"></div>
+              </section>
+            </div>
+            <div class="wb-home-right">
+              <section class="wb-panel wb-home-clock" aria-label="时钟与旧想法重现">
+                <time id="wb-home-clock-time"></time>
+                <p><time id="wb-home-calendar"></time><span id="wb-home-lunar"></span></p>
+                <button class="wb-home-resurfacing" type="button" id="wb-resurfacing-open" aria-label="打开重现的旧想法" disabled><span id="wb-resurfacing-title">冰箱里暂时没有想法</span></button>
+              </section>
+              <div class="wb-home-timers">
+                <section class="wb-panel wb-home-focus" aria-label="专注计时">
+                  <div class="wb-stopwatch-heading">专注计时</div>
+                  <output id="wb-timer-status" class="wb-stopwatch-time" aria-live="off">25:00</output>
+                  <button class="wb-button" type="button" data-wb-nav="focus">进入计时</button>
+                </section>
+              <section class="wb-home-stopwatch" aria-label="活动计时">
+                <div class="wb-stopwatch-heading"><span>活动计时</span><strong id="wb-stopwatch-status" role="status">准备开始</strong></div>
+                <output id="wb-stopwatch-time" class="wb-stopwatch-time" aria-live="off">00:00:00</output>
+                <div class="wb-stopwatch-controls"><button id="wb-stopwatch-start" class="wb-stopwatch-primary" type="button">开始</button><button id="wb-stopwatch-pause" type="button" hidden>暂停</button><button id="wb-stopwatch-stop" type="button" hidden>停止</button></div>
+                <dialog id="wb-stopwatch-dialog" class="wb-stopwatch-dialog" aria-labelledby="wb-stopwatch-dialog-title">
+                  <form method="dialog" data-stopwatch-form><h2 id="wb-stopwatch-dialog-title">记录刚才做的事</h2><label for="wb-stopwatch-task">活动内容</label><input id="wb-stopwatch-task" name="task" maxlength="500" autocomplete="off" required><p data-stopwatch-error role="alert"></p><div><button type="button" data-stopwatch-cancel>稍后填写</button><button type="submit">保存时间段</button></div></form>
+                </dialog>
+              </section>
+              </div>
+              <div class="wb-home-scene"><div id="wb-space" class="wb-space" aria-label="拖动旋转衔尾蛇，滚轮缩放"></div></div>
+              <section class="wb-panel wb-home-translation" id="wb-home-translation"></section>
+            </div>
+          </section>
+          <section id="wb-links" hidden></section>
+          <section id="wb-ideas" hidden></section>
+          <section id="wb-weekly" hidden></section>
+          <section id="wb-notes" hidden></section>
+          <section id="wb-experiments" hidden></section>
+          <section id="wb-plans" hidden></section>
+          <section id="wb-files" hidden></section>
+          <section id="wb-clipboard" hidden></section>
+          <section id="wb-settings" hidden></section>
+          <section id="wb-translation" hidden><div id="wb-translation-content"></div></section>
+          <section id="wb-life" hidden></section>
+        </main>
+      </div>
+    </div>
+    <div id="wb-notice" class="wb-notice" role="status" aria-live="polite" hidden></div>
+    <dialog id="wb-translation-popup" aria-label="划词翻译">
+      <div class="wb-translation-popup-actions">
+        <button type="button" class="wb-button" data-translation-full>在翻译页打开</button>
+        <button type="button" class="wb-button" data-translation-close>返回原文</button>
+      </div>
+    </dialog>
+  </div>
+  <template id="st-splash-template">
+    <div id="st-splash" role="region" aria-label="开屏动画">
+      <div class="st-bblur" aria-hidden="true"></div>
+      <div class="st-glass" aria-hidden="true"></div>
+      <canvas id="c" aria-hidden="true"></canvas>
+      <div id="ctrl">
+        <button class="pill" id="st-skip" type="button" aria-keyshortcuts="Escape" hidden>跳过 <kbd>Esc</kbd></button>
+        <button class="pill" id="mode" type="button" aria-label="切换开屏日夜主题" aria-pressed="false"><span class="knob" aria-hidden="true"></span><span id="modeTxt">夜晚</span></button>
+      </div>
+      <div id="hud" class="ui"><div class="st-status" role="status"></div><div class="st-sub" aria-hidden="true"></div></div>
+    </div>
+  </template>
+  <script type="module" src="startup/entry.mjs"></script>
+  <script type="module" src="appearance.mjs"></script>
+  <script type="module" src="app.mjs"></script>
+  <script type="module" src="workbench.mjs"></script>
+  <script type="module" src="risk-tools.mjs"></script>
+</body>
+</html>

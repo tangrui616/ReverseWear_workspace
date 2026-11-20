@@ -1,0 +1,84 @@
+{
+  "name": "reversewear-workbench",
+  "version": "23.0.2",
+  "description": "反穿衣工作台",
+  "author": "ReverseWear",
+  "private": true,
+  "type": "module",
+  "main": "main.mjs",
+  "scripts": {
+    "start": "node local-electron.mjs start",
+    "build": "node local-electron.mjs build",
+    "test": "node --test",
+    "verify": "node local-electron.mjs verify --skip-node --skip-workshop --skip-system-clipboard --only=public-core,workbench",
+    "architecture:check": "node qa/architecture-check.mjs",
+    "ipc:generate": "node ipc/generate-preloads.mjs --write",
+    "ipc:check": "node ipc/generate-preloads.mjs --check"
+  },
+  "devDependencies": {
+    "electron": "45.3.1",
+    "electron-builder": "26.18.0"
+  },
+  "build": {
+    "appId": "local.stilltime.desktop",
+    "productName": "反穿衣工作台",
+    "executableName": "ReverseWear",
+    "compression": "normal",
+    "afterPack": "./Trim_Portable_Bundle_CodexV6.0.2.cjs",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "desktop_suite/**/*.mjs",
+      "!desktop_suite/**/*.test.mjs",
+      "main.mjs",
+      "main/**/*.mjs",
+      "ipc/contract.mjs",
+      "qa/portable-verification.mjs",
+      "qa/reader-fixture.mjs",
+      "preload.cjs",
+      "suite-preload.cjs",
+      "capture-preload.cjs",
+      "desktop_*.mjs",
+      "!desktop_*.test.mjs",
+      "desktop_translation_worker.py",
+      "workbench-store.mjs",
+      "research-store.mjs",
+      "wallpaper_library_CodexV2.mjs",
+      "scene_assets_CodexV3.mjs",
+      "vendor/*LICENSE"
+    ],
+    "extraResources": [
+      {
+        "from": ".suite-native/WindowsBridge.exe",
+        "to": "desktop-suite/WindowsBridge.exe"
+      }
+    ],
+    "asarUnpack": [
+      "desktop_translation_worker.py"
+    ],
+    "win": {
+      "target": [
+        "portable"
+      ],
+      "electronLanguages": [
+        "en",
+        "zh"
+      ],
+      "signExecutable": false,
+      "artifactName": "ReverseWear_Workbench_CodexV23.0.2.${ext}"
+    },
+    "portable": {
+      "requestExecutionLevel": "user"
+    }
+  },
+  "dependencies": {
+    "@mozilla/readability": "0.6.0",
+    "linkedom": "0.18.15",
+    "mammoth": "1.13.0",
+    "markdown-it": "15.0.3",
+    "sanitize-html": "2.18.2",
+    "turndown": "7.2.5"
+  }
+}

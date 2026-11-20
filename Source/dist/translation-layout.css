@@ -1,0 +1,309 @@
+/* Standalone translation workspace. Inline translation keeps its existing styles. */
+#wb-translation .translation-panel {
+  --tr-workspace-gap: var(--wb-layout-gap, 16px);
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: var(--tr-workspace-gap);
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  padding: 0;
+}
+
+#wb-translation .translation-heading {
+  align-items: center;
+  gap: var(--tr-workspace-gap);
+  margin: 0;
+}
+
+#wb-translation .translation-heading h1 {
+  margin: 0;
+}
+
+#wb-translation .translation-layout {
+  min-width: 0;
+  min-height: 0;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: minmax(0, 1.35fr) minmax(150px, 0.65fr);
+  align-items: stretch;
+  gap: var(--tr-workspace-gap);
+}
+
+#wb-translation .translation-card {
+  min-width: 0;
+  min-height: 0;
+  padding: 12px;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+#wb-translation .translation-translate {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 8px var(--tr-workspace-gap);
+  align-items: stretch;
+}
+
+#wb-translation .translation-translate > .translation-card-head {
+  grid-column: 1 / -1;
+  min-width: 0;
+  margin: 0;
+}
+
+#wb-translation .translation-translate form,
+#wb-translation .translation-output {
+  display: grid;
+  grid-template-rows: auto minmax(110px, 1fr) auto auto;
+  align-content: stretch;
+  align-self: stretch;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  overflow: auto;
+}
+
+#wb-translation .translation-translate form {
+  grid-column: 1;
+}
+
+#wb-translation .translation-output {
+  grid-column: 2;
+  border-inline-start: 1px solid var(--tr-line);
+  padding-inline-start: var(--tr-workspace-gap);
+}
+
+#wb-translation .translation-field-label,
+#wb-translation .translation-output-head {
+  align-self: start;
+  min-height: 20px;
+  margin: 0 0 6px;
+}
+
+#wb-translation .translation-clipboard-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 7px 0 0;
+}
+
+#wb-translation .translation-output-head .translation-clipboard-actions {
+  justify-content: flex-end;
+  margin: 0;
+}
+
+#wb-translation .translation-clipboard-actions button {
+  min-height: 30px;
+  padding: 5px 9px;
+  border: 1px solid var(--tr-line);
+  border-radius: var(--wb-control-radius, 8px);
+  background: var(--wb-panel-deep, var(--tr-paper));
+  color: var(--wb-text, var(--tr-ink));
+  font: inherit;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+#wb-translation .translation-clipboard-actions button:hover {
+  border-color: var(--wb-accent, var(--tr-accent));
+}
+
+#wb-translation .translation-output-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--tr-muted);
+  font-size: 12px;
+}
+
+#wb-translation .translation-translate textarea {
+  width: 100%;
+  min-width: 0;
+  min-height: 110px;
+  height: 100%;
+  resize: vertical;
+  margin: 0;
+}
+
+#wb-translation .translation-output [data-tr-output] {
+  grid-row: 2;
+  min-height: 110px;
+  height: 100%;
+  margin: 0;
+}
+
+#wb-translation .translation-model-row {
+  min-width: 0;
+  margin: 8px 0 0;
+}
+
+#wb-translation .translation-model-row select {
+  min-width: 0;
+}
+
+#wb-translation .translation-output .translation-result {
+  grid-row: 3;
+  min-height: 0;
+  max-height: 9rem;
+  margin: 8px 0 0;
+  overflow: auto;
+}
+
+#wb-translation .translation-output:has([data-tr-output][hidden]) .translation-result {
+  grid-row: 2;
+  max-height: none;
+  margin: 0;
+}
+
+#wb-translation .translation-output .translation-empty {
+  padding: 4px 0;
+}
+
+#wb-translation .translation-output .translation-term-suggestions {
+  grid-row: 4;
+  margin-top: 8px;
+  overflow: auto;
+}
+
+#wb-translation .translation-vocabulary {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 8px;
+}
+
+#wb-translation .translation-terms {
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr);
+  gap: 8px;
+}
+
+#wb-translation .translation-card-head {
+  min-width: 0;
+  margin: 0;
+}
+
+#wb-translation .translation-vocabulary-list,
+#wb-translation .translation-term-list {
+  min-height: 0;
+  max-height: none;
+  overflow: auto;
+}
+
+#wb-translation .translation-term-form {
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) minmax(0, 1.4fr) auto;
+  align-self: start;
+  min-width: 0;
+  gap: 7px;
+}
+
+#wb-translation .translation-attribution {
+  margin: 0;
+}
+
+@media (min-width: 881px) and (min-height: 741px) {
+  #wb-translation .translation-translate {
+    grid-template-rows: auto auto minmax(110px, 1fr) auto auto;
+  }
+
+  #wb-translation .translation-translate form,
+  #wb-translation .translation-output {
+    grid-row: 2 / 6;
+    grid-template-rows: subgrid;
+  }
+}
+
+@media (max-width: 880px), (max-height: 740px) {
+  #wb-translation .translation-panel {
+    grid-template-rows: auto auto auto;
+  }
+
+  #wb-translation .translation-layout {
+    grid-template-rows: auto;
+  }
+
+  #wb-translation .translation-translate {
+    grid-template-rows: auto auto;
+  }
+
+  #wb-translation .translation-translate form,
+  #wb-translation .translation-output {
+    overflow: visible;
+  }
+
+  #wb-translation .translation-translate textarea,
+  #wb-translation .translation-output [data-tr-output] {
+    min-height: 112px;
+    height: 112px;
+  }
+
+  #wb-translation .translation-output .translation-result {
+    max-height: 150px;
+  }
+
+  #wb-translation .translation-vocabulary-list,
+  #wb-translation .translation-term-list {
+    max-height: 280px;
+  }
+}
+
+@media (max-width: 880px) {
+  #wb-translation .translation-vocabulary-list,
+  #wb-translation .translation-term-list {
+    max-height: none;
+    overflow: visible;
+  }
+
+  #wb-translation .translation-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  #wb-translation .translation-translate {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  #wb-translation .translation-translate > .translation-card-head,
+  #wb-translation .translation-translate form,
+  #wb-translation .translation-output {
+    grid-column: 1;
+  }
+
+  #wb-translation .translation-output {
+    border-inline-start: 0;
+    border-top: 1px solid var(--tr-line);
+    padding: var(--tr-workspace-gap) 0 0;
+  }
+
+  #wb-translation .translation-term-form {
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto;
+  }
+
+  #wb-translation .translation-term-form input[name="note"] {
+    grid-column: 1 / 4;
+  }
+}
+
+@media (max-width: 560px) {
+  #wb-translation .translation-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  #wb-translation .translation-status {
+    max-width: 100%;
+  }
+
+  #wb-translation .translation-term-form {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  #wb-translation .translation-term-form input[name="note"] {
+    grid-column: auto;
+  }
+
+  #wb-translation .translation-term-form > span {
+    display: none;
+  }
+}

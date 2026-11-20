@@ -1,0 +1,89 @@
+/* Full-screen focus keeps high contrast over the selected wallpaper. */
+.focus-wallpaper-controls { display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin-top:14px; }
+.focus-wallpaper-controls button {
+  display:inline-flex; align-items:center; gap:6px; padding:5px 10px; min-height:28px;
+  border:1px solid var(--line); border-radius:100px; font-size:11px;
+  background:#1d253750; color:#f5f7fb;
+}
+.focus-wallpaper-controls button[aria-pressed="true"] { background:#eef3fa; color:#26384a; }
+.focus-wallpaper-controls svg { width:13px; height:13px; }
+@media (max-height:700px) { .focus-wallpaper-controls { margin-top:8px; } }
+svg.wb-fa-icon { fill:currentColor; stroke:none; }
+.wallpaper-steps { display:flex; align-items:center; gap:2px; }
+.wallpaper-steps .icon-button { width:32px; height:32px; }
+.wallpaper-steps svg { width:14px; height:14px; }
+.footer-actions { flex-shrink:0; }
+.wallpaper-caption > div { min-width:0; }
+.wallpaper-caption #currentWallpaper { max-width:min(100%,36vw); }
+.close-button { height:30px; display:grid; place-items:center; }
+.close-button .wb-fa-icon { width:13px; height:13px; }
+.favorite-button .wb-fa-icon { width:12px; height:12px; }
+.favorite-button:not(.active) .wb-fa-icon { fill:none; stroke:currentColor; stroke-width:2; }
+.selected-check { display:grid; place-items:center; }
+.selected-check .wb-fa-icon { width:10px; height:10px; }
+.caption-icon .wb-fa-icon { width:23px; height:23px; }
+.brand-mark .wb-fa-icon { width:32px; height:32px; }
+.status-pill .wb-fa-icon, .presets .wb-fa-icon, .apply-button .wb-fa-icon, .import-button .wb-fa-icon { width:12px; height:12px; }
+html[data-theme] body {
+  --accent: #e5edf8;
+  --line: #f5f7ff38;
+  --muted: #e6edf5ba;
+}
+html[data-palette="ocean"] body { --accent:#d1f0f7; }
+html[data-palette="sage"] body { --accent:#deefdf; }
+html[data-palette="plum"] body { --accent:#f2dff1; }
+html[data-palette="sand"] body { --accent:#fae8cd; }
+html[data-theme] :is(.status-pill,.round-button,.library-button,.exit-zen) { background:#1d253750; }
+html[data-theme] .start-button { color:#172333; font-weight:650; }
+html[data-theme] .presets button.active { color:#fafbff; background:#ffffff29; }
+html[data-theme] .toast { background:#242933eb; }
+
+html[data-theme] :is(.settings-dialog,.library-dialog) {
+  --dialog-ink:#25272d;
+  --dialog-muted:#585d67;
+  --dialog-surface:#fffefa;
+  --dialog-well:#ececea;
+  --dialog-line:#292d401e;
+  --dialog-accent:var(--appearance-accent-strong);
+  --dialog-on-accent:#fff;
+  --line:var(--dialog-line);
+  --muted:var(--dialog-muted);
+  --accent:var(--dialog-accent);
+  color:var(--dialog-ink);
+  background:#f6f5f1;
+  border-color:var(--dialog-line);
+  border-radius:24px;
+  font-family:Inter,"Segoe UI","Microsoft YaHei UI",sans-serif;
+  scrollbar-color:var(--dialog-line) transparent;
+}
+html[data-theme="dark"] :is(.settings-dialog,.library-dialog) {
+  --dialog-ink:#edf0f7;
+  --dialog-muted:#b2bbc9;
+  --dialog-surface:#2c323d;
+  --dialog-well:#171c25;
+  --dialog-line:#f0f5ff25;
+  --dialog-on-accent:#171d27;
+  background:#222833;
+}
+html[data-theme] dialog::backdrop { background:#11172480; backdrop-filter:blur(12px); }
+html[data-theme] dialog .section-kicker { color:var(--dialog-muted); }
+html[data-theme] dialog .dialog-heading h2 { color:var(--dialog-ink); font-weight:640; letter-spacing:-.02em; }
+html[data-theme] dialog :is(.field-label,.toggle-row,.card-type,.wallpaper-card.selected .card-type,.filter-options button[data-filter]) { color:var(--dialog-muted); }
+html[data-theme] dialog :is(input:not([type=checkbox]):not([type=range]),textarea,select,option,.search-field,.segmented) {
+  color:var(--dialog-ink);
+  background:var(--dialog-well);
+  border-color:var(--dialog-line);
+  color-scheme:inherit;
+}
+html[data-theme] dialog .search-field input { background:transparent; }
+html[data-theme] dialog input::placeholder { color:var(--dialog-muted); }
+html[data-theme] dialog :is(input[type=range],input[type=checkbox]) { accent-color:var(--dialog-accent); }
+html[data-theme] dialog :is(.close-button,.icon-button,.wallpaper-select) { color:var(--dialog-ink); }
+html[data-theme] dialog :is(.close-button,.icon-button) { background:var(--dialog-well); border-radius:50%; }
+html[data-theme] dialog :is(.import-button,.segmented button.active) { color:var(--dialog-ink); background:var(--dialog-surface); border-color:var(--dialog-line); }
+html[data-theme] dialog :is(.apply-button,.filter-options button[data-filter].active,.selected-check) { color:var(--dialog-on-accent); background:var(--dialog-accent); }
+html[data-theme] dialog .wallpaper-card.selected .card-image { border-color:var(--dialog-accent); }
+html[data-theme] dialog .card-image { background:var(--dialog-well); border-color:var(--dialog-line); }
+html[data-theme] dialog :is(.placeholder-icon,.empty-state>span) { color:var(--dialog-muted); }
+html[data-theme] dialog .inline-error { color:#a33132; }
+html[data-theme="dark"] dialog .inline-error { color:#ffb6af; }

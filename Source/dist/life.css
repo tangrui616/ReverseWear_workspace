@@ -1,0 +1,38 @@
+.wb-life{--life-accent:var(--wb-accent-strong,#315d48)}.wb-life-tabs{display:flex;gap:8px;overflow:auto;padding:4px 0 15px}.wb-life-tab{border:1px solid var(--wb-line);border-radius:999px;padding:8px 14px;background:var(--wb-panel,#fff);color:var(--wb-text);white-space:nowrap}.wb-life-tab[aria-selected=true]{background:var(--life-accent);border-color:var(--life-accent);color:#fff}.wb-life-layout{display:grid;grid-template-columns:minmax(220px,.72fr) minmax(380px,1.5fr);gap:16px;align-items:start}.wb-life-records{display:grid;gap:9px;max-height:72vh;overflow:auto}.wb-life-record{border:1px solid var(--wb-line);border-radius:12px;padding:12px;background:var(--wb-panel-deep,rgba(255,255,255,.5));min-width:0}.wb-life-record .wb-entry-title{font-weight:600;max-width:100%;text-align:left;background:transparent;padding:0;color:var(--wb-text);overflow-wrap:anywhere}.wb-life-record p{margin:8px 0 0}.wb-life-excerpt{font-size:12px;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere;opacity:.8}.wb-life-editor form{display:grid;gap:14px}.wb-life-field{display:grid;gap:6px;font-size:12px}.wb-life-field input,.wb-life-field select,.wb-life-field textarea{width:100%;box-sizing:border-box;border:1px solid var(--wb-line);border-radius:9px;padding:10px 12px;background:var(--wb-panel-deep,#fff);color:var(--wb-text);font:inherit}.wb-life-field textarea{resize:vertical;min-height:110px;line-height:1.55}.wb-life-field input:focus-visible,.wb-life-field select:focus-visible,.wb-life-field textarea:focus-visible{outline:2px solid var(--life-accent);outline-offset:1px}.wb-life-privacy{margin-right:auto;font-size:11px;color:var(--wb-muted)}.wb-life-template-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.wb-life-template-actions select{max-width:320px;padding:9px;border:1px solid var(--wb-line);border-radius:8px;background:var(--wb-panel-deep,#fff);color:var(--wb-text)}.wb-life-board{margin-top:16px}.wb-life-columns{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.wb-life-column{border:1px solid var(--wb-line);border-radius:12px;padding:12px;min-height:170px;background:var(--wb-panel-deep,rgba(255,255,255,.38))}.wb-life-column h3{font-size:13px;margin:0 0 10px}.wb-life-column-cards{display:grid;gap:8px;min-height:120px}.wb-life-board-card{border:1px solid var(--wb-line);border-radius:9px;background:var(--wb-panel,#fff);color:var(--wb-text);text-align:left;padding:10px;cursor:grab;line-height:1.5;overflow-wrap:anywhere}.wb-life-board-card:focus-visible{outline:2px solid var(--life-accent)}.wb-life-stage{display:inline-flex;padding:3px 8px;border-radius:99px;background:color-mix(in srgb,var(--life-accent) 12%,transparent);font-size:11px}@media(max-width:900px){.wb-life-layout{grid-template-columns:1fr}.wb-life-records{max-height:36vh}.wb-life-columns{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:560px){.wb-life-columns{grid-template-columns:1fr}.wb-life-tabs{padding-bottom:11px}}
+.wb-life-privacy-toggle{display:flex;align-items:center;gap:9px;border:1px solid var(--wb-line);border-radius:9px;padding:10px;font-size:12px}.wb-life-privacy-toggle input{accent-color:var(--wb-accent-strong)}.wb-life-privacy-toggle [data-life-review]{margin-left:auto}.wb-life-private-badge{font-size:10px;color:var(--wb-muted);margin-left:8px}
+
+@media (min-width: 881px) and (min-height: 741px) {
+  #wb-life.wb-life {
+    display: grid;
+    grid-template-rows: auto auto minmax(0, 1fr) auto;
+    min-width: 0;
+    min-height: 0;
+    height: 100%;
+    gap: var(--wb-layout-gap, 12px);
+  }
+
+  #wb-life > .wb-heading,
+  #wb-life > .wb-life-tabs { margin: 0; padding-block: 0; }
+  #wb-life > .wb-life-layout { min-height: 0; }
+  #wb-life .wb-life-list-panel,
+  #wb-life .wb-life-editor { min-width: 0; min-height: 0; height: 100%; overflow: auto; }
+  #wb-life .wb-life-records { max-height: none; }
+  #wb-life > .wb-life-board { min-width: 0; max-height: 32svh; margin: 0; overflow: auto; }
+  #wb-life .wb-life-columns { grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: stretch; }
+}
+
+#wb-life > .wb-life-layout {
+  grid-template-columns: minmax(180px, 230px) minmax(0, 1fr);
+  align-items: stretch;
+  min-width: 0;
+  gap: var(--wb-layout-gap, 12px);
+}
+
+@media (max-width: 880px) {
+  #wb-life.wb-life { display: block; height: auto; }
+  #wb-life > .wb-heading { margin-bottom: 8px; }
+  #wb-life > .wb-life-tabs { padding-bottom: 10px; }
+  #wb-life > .wb-life-layout { grid-template-columns: minmax(0, 1fr); }
+  #wb-life .wb-life-records { max-height: none; }
+  #wb-life > .wb-life-board { margin-top: 12px; }
+}

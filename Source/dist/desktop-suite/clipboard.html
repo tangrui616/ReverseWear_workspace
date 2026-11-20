@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="zh-CN" data-suite-page="clipboard" data-material="solid" data-palette="mist">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>全能剪贴板</title>
+  <link rel="stylesheet" href="suite.css">
+  <script type="module" src="suite.mjs"></script>
+</head>
+<body class="clipboard-body">
+  <main class="suite-shell clipboard-shell">
+    <header class="suite-header clipboard-titlebar">
+      <div class="suite-window-controls mac-window-controls" aria-label="窗口控制">
+        <button type="button" data-window-command="close" data-action="window.hide" aria-label="收起剪贴板"><span></span></button>
+        <button type="button" data-window-command="minimize" aria-label="最小化"><span></span></button>
+        <button type="button" data-window-command="maximize" aria-label="切换最大化"><span></span></button>
+      </div>
+      <h1>剪贴板</h1>
+      <div class="header-tools"><span id="capture-state" class="status-chip" aria-live="polite"></span></div>
+    </header>
+    <section class="search-row" aria-label="搜索剪贴板历史">
+      <label class="search-box"><span aria-hidden="true">⌕</span><input id="history-search" type="search" autocomplete="off" placeholder="搜索文字、链接或看板…" aria-label="搜索剪贴板历史"><kbd>输入即搜</kbd></label>
+      <button type="button" class="quiet-button" data-action="stack.toggle" id="stack-toggle" aria-pressed="false">顺序栈</button>
+    </section>
+    <nav id="board-tabs" class="board-tabs" aria-label="剪贴板看板"></nav>
+    <section id="stack-panel" class="stack-panel" hidden aria-label="顺序粘贴栈">
+      <div><strong id="stack-heading">顺序粘贴栈</strong><span id="stack-preview" aria-live="polite"></span></div>
+      <button type="button" class="quiet-button" data-action="stack.next">粘贴下一项</button>
+    </section>
+    <div class="history-toolbar">
+      <div id="type-filters" class="type-filters" role="group" aria-label="按类型筛选">
+        <button type="button" data-type="" aria-pressed="true">全部</button>
+        <button type="button" data-type="text" aria-pressed="false">文本</button>
+        <button type="button" data-type="link" aria-pressed="false">链接</button>
+        <button type="button" data-type="image" aria-pressed="false">图片</button>
+        <button type="button" data-type="files" aria-pressed="false">文件</button>
+        <button type="button" data-type="color" aria-pressed="false">颜色</button>
+      </div>
+      <button type="button" class="text-button danger" data-action="history.clear">清理普通历史</button>
+    </div>
+    <section id="history-list" class="history-list" aria-label="剪贴板历史" aria-live="polite"></section>
+    <button type="button" id="history-load-more" class="load-more-button" hidden>加载更多记录</button>
+    <section id="history-empty" class="empty-state" hidden><span class="empty-icon">⌘</span><strong>这里还没有匹配记录</strong><p>复制内容后，开启采集即可在这里查找。</p></section>
+    <details class="suite-settings">
+      <summary>采集与隐私设置</summary>
+      <div class="settings-grid">
+        <p id="settings-status" class="settings-status" role="status" hidden></p>
+        <label class="setting-row"><span><strong>记录剪贴板历史</strong><small>仅在当前电脑本地保存</small></span><input id="capture-enabled" type="checkbox"></label>
+        <label class="setting-row"><span><strong>选中卡片后自动粘贴</strong><small>系统不允许切换焦点时仅写回剪贴板</small></span><input id="auto-paste-enabled" type="checkbox"></label>
+        <label class="setting-row"><span><strong>启用划词工具</strong><small>由快捷键主动读取当前选区</small></span><input id="selection-enabled" type="checkbox"></label>
+        <label class="setting-row"><span><strong>允许模拟复制读取选区</strong><small>仅在 UI Automation 无法读取时使用</small></span><input id="selection-copy-fallback" type="checkbox"></label>
+        <label class="setting-row"><span><strong>关闭窗口后留在托盘</strong><small>开启后使用托盘菜单彻底退出</small></span><input id="tray-enabled" type="checkbox"></label>
+        <label class="setting-field">忽略的应用进程名<input id="excluded-processes" type="text" placeholder="1Password.exe, KeePass.exe"></label>
+        <label class="setting-field">普通历史条数上限<input id="history-cap" type="number" min="50" max="5000" step="50"></label>
+        <label class="setting-field">图片总容量上限（MiB）<input id="image-cap" type="number" min="16" max="4096" step="16"></label>
+        <fieldset class="shortcut-settings">
+          <legend>全局快捷键</legend>
+          <label>剪贴板抽屉<input id="shortcut-history" type="text" autocomplete="off" spellcheck="false" placeholder="Alt+V"><small id="shortcut-error-history"></small></label>
+          <label>命令面板<input id="shortcut-launcher" type="text" autocomplete="off" spellcheck="false" placeholder="Control+Alt+Space"><small id="shortcut-error-launcher"></small></label>
+          <label>顺序粘贴栈<input id="shortcut-stack" type="text" autocomplete="off" spellcheck="false" placeholder="Control+Alt+Shift+V"><small id="shortcut-error-stack"></small></label>
+          <label>划词工具<input id="shortcut-selection" type="text" autocomplete="off" spellcheck="false" placeholder="Control+Alt+Shift+T"><small id="shortcut-error-selection"></small></label>
+          <label>收录网页<input id="shortcut-article" type="text" autocomplete="off" spellcheck="false" placeholder="Control+Alt+Shift+S"><small id="shortcut-error-article"></small></label>
+        </fieldset>
+        <button type="button" class="primary-button" data-action="settings.save">保存设置</button>
+      </div>
+    </details>
+    <div id="suite-toast" class="suite-toast" role="status"></div>
+  </main>
+</body>
+</html>

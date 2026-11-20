@@ -1,0 +1,99 @@
+.wb .wb-today-dashboard { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.wb-capture-actions { grid-column: 2; grid-row: 1 / span 2; display: flex; flex-wrap: wrap; gap: 6px; justify-content: end; }
+.wb-capture-actions > button {
+  padding: 7px 10px; font-size: 11px; white-space: nowrap; border-radius: 999px;
+  color: var(--wb-accent-strong); background: var(--wb-panel); border: 1px solid var(--wb-line);
+}
+.wb-capture-actions > button:hover { border-color: var(--wb-accent); background: var(--wb-accent-soft); }
+.wb-capture-actions > #wb-quick-capture { color: #fff; border-color: var(--wb-accent-strong); background: var(--wb-accent-strong); }
+html[data-theme="dark"] .wb-capture-actions > #wb-quick-capture { color: #111821; }
+.wb-ideas-heading { display: flex; justify-content: space-between; align-items: end; flex-wrap: wrap; gap: 14px; }
+#wb-ideas .wb-filters button[aria-pressed="true"] {
+  border-color: var(--wb-accent); background: var(--wb-accent-strong); color: #fff;
+}
+html[data-theme="dark"] #wb-ideas .wb-filters button[aria-pressed="true"] {
+  color: var(--wb-text); background: var(--wb-accent-soft);
+}
+#wb-ideas .wb-idea-columns { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: stretch; gap: var(--wb-layout-gap, 12px); }
+.wb-idea-editor [hidden], .wb-idea-columns[hidden], .wb-inbox[hidden] { display: none; }
+.wb-idea-filters { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-block: 12px; }
+.wb-idea-filters label { flex: 1; }
+.wb-idea-filters :is(input, select) {
+  max-width: 100%; min-width: 0; padding: 8px 9px; border: 1px solid var(--wb-line);
+  border-radius: 9px; background: var(--wb-panel); color: var(--wb-text); font: inherit;
+}
+.wb-idea-filters [data-idea-tag] { flex: 1 1 95px; }
+.wb-idea-filters :is(input, select):focus-visible { outline: 2px solid var(--wb-accent); outline-offset: 1px; }
+.wb-idea-text {
+  margin: 6px 0 8px; font: inherit; line-height: 1.6; overflow-wrap: anywhere; white-space: pre-wrap;
+}
+[data-idea-list] .wb-entry-title[aria-current] {
+  text-decoration: underline; text-underline-offset: 3px; color: var(--wb-accent-strong);
+}
+.wb-idea-editor blockquote, .wb-idea-dialog blockquote {
+  padding: 8px 12px; border-inline-start: 2px solid var(--wb-accent); background: var(--wb-panel-deep);
+  max-height: 12rem; overflow: auto;
+}
+.wb-idea-dialog {
+  box-sizing: border-box; width: min(460px, calc(100% - 32px)); max-height: calc(100% - 32px);
+  padding: 24px; border: 1px solid var(--wb-line); border-radius: 18px;
+  background: var(--wb-panel); color: var(--wb-text); box-shadow: 0 24px 80px #10182040;
+}
+.wb-idea-dialog::backdrop { background: #141e2b65; backdrop-filter: blur(5px); }
+.wb-idea-dialog h2 { margin: 0; font-size: 21px; }
+.wb-idea-dialog small { color: var(--wb-muted); }
+.wb-kanban-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.wb-kanban-lanes { display: grid; grid-template-columns: repeat(5, minmax(190px, 1fr)); gap: 12px; overflow-x: auto; align-items: start; }
+.wb-kanban-lane { min-height: 260px; padding: 12px; border: 1px solid var(--wb-line); border-radius: 14px; background: var(--wb-panel-deep); }
+.wb-kanban-lane:focus-within, .wb-kanban-lane[aria-label="行动"] { border-color: color-mix(in srgb, var(--wb-accent) 32%, var(--wb-line)); }
+.wb-kanban-lane-heading { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 10px; }
+.wb-kanban-lane-heading h3 { margin: 0; font-size: 14px; }
+.wb-kanban-card { display: grid; gap: 8px; margin-block: 8px; padding: 12px; border: 1px solid var(--wb-line); border-radius: 11px; background: var(--wb-panel); box-shadow: 0 4px 14px #15202b0c; }
+.wb-kanban-card[draggable="true"] { cursor: grab; }
+.wb-kanban-card[draggable="true"]:active { cursor: grabbing; }
+.wb-kanban-card .wb-entry-title { padding: 0; text-align: start; background: transparent; border: 0; color: var(--wb-text); font: inherit; font-weight: 650; }
+.wb-kanban-card .wb-excerpt { margin: 0; max-height: 5.6em; overflow: hidden; }
+.wb-kanban-card-actions { display: flex; justify-content: end; }
+.wb-kanban-card-actions select { max-width: 100%; padding: 6px 8px; border: 1px solid var(--wb-line); border-radius: 8px; background: var(--wb-panel); color: var(--wb-text); font: inherit; }
+.wb-kanban-archive { margin-top: 18px; padding: 12px 14px; border: 1px solid var(--wb-line); border-radius: 12px; background: var(--wb-panel); }
+.wb-kanban-archive summary { cursor: pointer; color: var(--wb-muted); }
+.wb-kanban-archive-list { display: grid; gap: 8px; margin-top: 10px; }
+@media (max-width: 1050px) { .wb-kanban-lanes { grid-template-columns: repeat(5, minmax(215px, 1fr)); } }
+@media (prefers-reduced-motion: no-preference) { .wb-kanban-card { transition: border-color .16s ease, transform .16s ease, box-shadow .16s ease; } .wb-kanban-card:hover { transform: translateY(-2px); box-shadow: 0 8px 22px #15202b12; } }
+@media (max-width: 650px) { .wb .wb-today-dashboard { grid-template-columns: 1fr; } }
+
+@media (min-width: 881px) and (min-height: 741px) {
+  #wb-ideas {
+    display: grid;
+    grid-template-rows: auto auto minmax(0, 1fr);
+    min-width: 0;
+    min-height: 0;
+    height: 100%;
+    gap: var(--wb-layout-gap, 12px);
+  }
+
+  #wb-ideas > .wb-heading,
+  #wb-ideas > .wb-ideas-heading,
+  #wb-ideas > .wb-filters { margin: 0; }
+
+  #wb-ideas > [data-idea-pane] { min-width: 0; min-height: 0; height: 100%; }
+
+  #wb-ideas > .wb-inbox,
+  #wb-ideas > .wb-idea-columns > .wb-panel,
+  #wb-ideas > [data-idea-pane="kanban"],
+  #wb-ideas > [data-idea-pane="board"] { overflow: auto; }
+
+  #wb-ideas > [data-idea-pane="board"] { display: grid; grid-template-rows: auto minmax(0, 1fr); gap: var(--wb-layout-gap, 12px); }
+  #wb-ideas > [data-idea-pane="board"] > .wb-heading { margin: 0; }
+  #wb-ideas > [data-idea-pane="board"] > .wb-board-layout { min-height: 0; height: 100%; }
+  #wb-ideas .wb-board-gallery,
+  #wb-ideas .wb-board-editor { min-height: 0; }
+}
+
+#wb-ideas .wb-kanban-lanes { align-items: stretch; }
+
+@media (max-width: 880px) {
+  #wb-ideas .wb-idea-columns { grid-template-columns: minmax(0, 1fr); }
+  #wb-ideas .wb-kanban-lane { min-height: 220px; }
+  #wb-ideas .wb-list { max-height: none; overflow: visible; }
+}

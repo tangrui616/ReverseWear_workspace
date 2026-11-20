@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>快速捕捉</title>
+  <link rel="stylesheet" href="/capture.css">
+</head>
+<body>
+  <main class="capture-card">
+    <div class="capture-window-bar"><button type="button" id="capture-close" aria-label="关闭快速捕捉" title="关闭快速捕捉"><span aria-hidden="true">×</span></button></div>
+    <div class="capture-heading"><span class="capture-mark" aria-hidden="true">∞</span><span>快速捕捉</span><span class="capture-hint">Enter 保存 · Esc 关闭</span></div>
+    <form id="capture-form">
+      <label class="visually-hidden" for="capture-text">记录一句想法</label>
+      <input id="capture-text" type="text" maxlength="2000" autocomplete="off" placeholder="记下此刻想到的事……" autofocus>
+      <div id="capture-source-wrap" class="source-wrap" hidden>
+        <span class="source-label">来源</span><span id="capture-source"></span>
+        <button id="capture-source-remove" class="source-remove" type="button" aria-label="移除来源链接">移除</button>
+      </div>
+      <div class="capture-footer"><p id="capture-status" role="status" aria-live="polite"></p><button id="capture-submit" type="submit">保存到收件箱 <span aria-hidden="true">↵</span></button></div>
+    </form>
+  </main>
+  <script type="module" src="/capture.mjs"></script>
+</body>
+</html>

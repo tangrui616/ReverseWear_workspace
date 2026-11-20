@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="zh-CN" data-suite-page="selection">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>划词工具</title>
+  <link rel="stylesheet" href="suite.css">
+  <script type="module" src="suite.mjs"></script>
+</head>
+<body class="selection-body">
+  <main class="selection-shell">
+    <p id="selection-preview" class="selection-preview" aria-label="当前选中的文本"></p>
+    <div class="selection-actions" role="toolbar" aria-label="划词操作">
+      <button type="button" data-selection-action="translate" title="离线翻译">译</button>
+      <button type="button" data-selection-action="append-note" title="追加到剪贴板收集笔记">记</button>
+      <button type="button" data-selection-action="count" title="统计字数">字</button>
+      <button type="button" data-selection-action="search" title="浏览器搜索">搜</button>
+      <button type="button" data-action="window.hide" title="关闭工具条">×</button>
+    </div>
+    <div id="selection-result" class="selection-result" role="status" aria-live="polite"></div>
+    <div id="suite-toast" class="suite-toast" role="status"></div>
+  </main>
+</body>
+</html>

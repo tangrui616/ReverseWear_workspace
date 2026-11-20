@@ -1,0 +1,123 @@
+{
+  "version": 1,
+  "excluded": [
+    "qa/**",
+    "tests/**",
+    "vendor/**",
+    "dist/wallpapers/**",
+    "dist/ouroboros/**",
+    "node_modules/**",
+    "release/**",
+    ".cache/**"
+  ],
+  "developmentOnlyImports": [
+    "main.mjs -> qa/Focus_Check_CodexV15.mjs",
+    "main/start.mjs -> qa/ArticleInbox_Check_CodexV18.mjs",
+    "main/start.mjs -> qa/development-verification.mjs"
+  ],
+  "crossLayerEdges": [
+    "desktop_document_worker.mjs -> dist/markdown-renderer.mjs",
+    "desktop_idea_rotation.mjs -> dist/date-boundary.mjs",
+    "desktop_ideas.mjs -> dist/date-boundary.mjs",
+    "desktop_life.mjs -> dist/date-boundary.mjs",
+    "desktop_suite/windowManager.mjs -> desktop_window_chrome.mjs",
+    "desktop_suite/windowManager.mjs -> ipc/contract.mjs",
+    "desktop_suite/windowManager.mjs -> main/ipc.mjs",
+    "desktop_vocabulary.mjs -> dist/date-boundary.mjs",
+    "desktop_weekly_review.mjs -> dist/date-boundary.mjs",
+    "desktop_window_chrome.mjs -> main/ipc.mjs",
+    "main.mjs -> main/start.mjs",
+    "main/capture-window.mjs -> desktop_window_chrome.mjs",
+    "main/ipc-articles.mjs -> desktop_suite/clipboardService.mjs",
+    "main/ipc-inspiration.mjs -> desktop_resources.mjs",
+    "main/ipc-language.mjs -> desktop_dictionaries.mjs",
+    "main/ipc-risk.mjs -> desktop_data_root.mjs",
+    "main/ipc.mjs -> ipc/contract.mjs",
+    "main/protocol.mjs -> desktop_document.mjs",
+    "main/protocol.mjs -> desktop_resources.mjs",
+    "main/protocol.mjs -> desktop_web.mjs",
+    "main/services.mjs -> desktop_articles.mjs",
+    "main/services.mjs -> desktop_bulk_links.mjs",
+    "main/services.mjs -> desktop_dictionaries.mjs",
+    "main/services.mjs -> desktop_global_search.mjs",
+    "main/services.mjs -> desktop_history.mjs",
+    "main/services.mjs -> desktop_idea_rotation.mjs",
+    "main/services.mjs -> desktop_ideas.mjs",
+    "main/services.mjs -> desktop_incremental_index.mjs",
+    "main/services.mjs -> desktop_inspiration_board.mjs",
+    "main/services.mjs -> desktop_library_tools.mjs",
+    "main/services.mjs -> desktop_life.mjs",
+    "main/services.mjs -> desktop_link_check.mjs",
+    "main/services.mjs -> desktop_mirror.mjs",
+    "main/services.mjs -> desktop_recent_tags.mjs",
+    "main/services.mjs -> desktop_records.mjs",
+    "main/services.mjs -> desktop_scene_diagnostics.mjs",
+    "main/services.mjs -> desktop_translation_engines.mjs",
+    "main/services.mjs -> desktop_vocabulary.mjs",
+    "main/services.mjs -> desktop_weekly_review.mjs",
+    "main/services.mjs -> research-store.mjs",
+    "main/services.mjs -> wallpaper_library_CodexV2.mjs",
+    "main/services.mjs -> workbench-store.mjs",
+    "main/start.mjs -> desktop_prompts.mjs",
+    "main/start.mjs -> desktop_suite/windowManager.mjs",
+    "main/windows.mjs -> desktop_window_chrome.mjs",
+    "research-store.mjs -> dist/date-boundary.mjs",
+    "workbench-store.mjs -> dist/date-boundary.mjs"
+  ],
+  "directPreloadAccess": [
+    "dist/app.mjs",
+    "dist/appearance.mjs",
+    "dist/ideas.mjs",
+    "dist/life.mjs",
+    "dist/link-library.mjs",
+    "dist/markdown-templates.mjs",
+    "dist/note-workspace.mjs",
+    "dist/research.mjs",
+    "dist/risk-tools.mjs",
+    "dist/startup/entry.mjs",
+    "dist/translation.mjs",
+    "dist/weekly-review.mjs",
+    "dist/workbench-settings.mjs",
+    "dist/workbench.mjs"
+  ],
+  "largeModules": {
+    "desktop_articles.mjs": 767,
+    "desktop_history.mjs": 517,
+    "desktop_mirror.mjs": 731,
+    "desktop_suite/clipboardService.mjs": 678,
+    "desktop_suite/clipboardStore.mjs": 557,
+    "desktop_suite/windowManager.mjs": 604,
+    "dist/app.mjs": 718,
+    "dist/article-inbox.mjs": 696,
+    "dist/desktop-suite/suite.mjs": 627,
+    "dist/note-workspace.mjs": 1012,
+    "dist/startup/stage.mjs": 1630,
+    "dist/translation.mjs": 563,
+    "dist/web-collection.mjs": 556,
+    "dist/workbench-pdf.mjs": 692,
+    "dist/workbench.mjs": 870,
+    "ipc/contract.mjs": 687,
+    "workbench-store.mjs": 608
+  },
+  "largeStyles": {
+    "dist/glass-theme.css": 628
+  },
+  "assemblyDebt": {
+    "dist/app.mjs": 718,
+    "dist/workbench.mjs": 870
+  },
+  "ipcContracts": {
+    "commands": {
+      "count": 134,
+      "sha256": "77d7dfe9c321441c5232c7a5a79392e741e04915762011cc8b1a8b0217dd9d1b"
+    },
+    "events": {
+      "count": 16,
+      "sha256": "662f24fc469ec99f8b12eee7465f5ed5fbb88acec28b52778f27ab624c0ebc40"
+    },
+    "suiteOperations": {
+      "count": 28,
+      "sha256": "1002eeeb0fdf21083c135c58c944026a03d5e693221ce53fc29a526bc314a881"
+    }
+  }
+}

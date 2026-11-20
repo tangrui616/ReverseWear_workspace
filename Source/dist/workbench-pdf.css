@@ -1,0 +1,195 @@
+.workbench-pdf {
+  --pdf-line: #e1d9cc;
+  --pdf-muted: #777d80;
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  flex-direction: column;
+  overflow: hidden;
+  color: #253648;
+  background: linear-gradient(155deg, #fbf9f4, #f1ece3);
+  border: 1px solid var(--pdf-line);
+  border-radius: 14px;
+  box-shadow: 0 12px 34px rgba(54, 43, 30, .1), inset 0 1px rgba(255,255,255,.84);
+}
+
+.workbench-pdf__toolbar {
+  display: flex;
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  min-height: 48px;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--pdf-line);
+  background: #f2ede5;
+}
+
+.workbench-pdf__toolbar :is([data-reader-translate],[data-pdf-translate]) {
+  display: inline-flex;
+  flex: 0 0 auto;
+  width: max-content;
+  min-width: max-content;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 0 12px;
+  font-size: 12px;
+  line-height: 1.2;
+  white-space: nowrap;
+  writing-mode: horizontal-tb;
+}
+
+.workbench-pdf__toolbar button {
+  display: inline-grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: #f7f4eb;
+  background: #1c334a;
+  font-size: 21px;
+  line-height: 1;
+}
+
+.workbench-pdf__toolbar button:hover:not(:disabled) {
+  border-color: #3b566c;
+  background: #2b4962;
+}
+
+.workbench-pdf__toolbar button:disabled {
+  opacity: .28;
+  cursor: default;
+}
+
+.workbench-pdf__toolbar .workbench-pdf__capture {
+  display: inline-flex;
+  width: auto;
+  align-items: center;
+  gap: 6px;
+  padding: 0 10px;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.workbench-pdf__page-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--pdf-muted);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.workbench-pdf__page-input {
+  width: 48px;
+  height: 30px;
+  padding: 0 5px;
+  border: 1px solid var(--pdf-line);
+  border-radius: 7px;
+  color: #263849;
+  background: #fffefa;
+  text-align: center;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.workbench-pdf__page-input::-webkit-inner-spin-button,
+.workbench-pdf__page-input::-webkit-outer-spin-button {
+  margin: 0;
+  appearance: none;
+}
+
+.workbench-pdf__spacer { flex: 1; }
+
+.workbench-pdf__zoom-value {
+  min-width: 64px;
+  color: var(--pdf-muted);
+  text-align: center;
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+}
+
+.workbench-pdf__status {
+  max-width: min(30vw, 300px);
+  overflow: hidden;
+  color: #927348;
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.workbench-pdf__viewport {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  overflow-anchor: none;
+  padding: 24px;
+  scrollbar-color: #c8bdad transparent;
+  scrollbar-width: thin;
+  scrollbar-gutter: stable;
+}
+
+.workbench-pdf__pages {
+  display: flex;
+  width: max-content;
+  min-width: 100%;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.workbench-pdf__page-wrap {
+  position: relative;
+  flex: 0 0 auto;
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 14px 36px rgba(57, 45, 29, .17), 0 0 0 1px rgba(229, 220, 202, .8);
+}
+
+.workbench-pdf__canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+.workbench-pdf__text-layer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  opacity: 1;
+  line-height: 1;
+  text-align: initial;
+  text-size-adjust: none;
+  forced-color-adjust: none;
+  transform-origin: 0 0;
+  user-select: text;
+}
+
+.workbench-pdf__text-layer span,
+.workbench-pdf__text-layer br {
+  position: absolute;
+  color: transparent;
+  white-space: pre;
+  transform-origin: 0 0;
+  cursor: text;
+}
+
+.workbench-pdf__text-layer br { user-select: none; }
+
+.workbench-pdf__text-layer ::selection {
+  color: transparent;
+  background: rgba(74, 129, 165, .28);
+}
+
+@media (max-width: 620px) {
+  .workbench-pdf__toolbar { gap: 3px; padding-inline: 6px; }
+  .workbench-pdf__status { max-width: 88px; }
+  .workbench-pdf__viewport { padding: 14px 8px; }
+}
